@@ -5,7 +5,7 @@ module.exports = {
   devtool: 'source-map',
   entry: [
     'webpack-hot-middleware/client',
-    './index.js'
+    './src/index.js'
   ],
   output: {
     filename: 'bundle.js',
