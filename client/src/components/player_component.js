@@ -5,9 +5,9 @@ import {connect} from "react-redux";
 import {COLORS} from "../constants/colors";
 import * as PlayerActionCreator from "../actions/player_action_creator";
 
-const ColorButton = ({type, name, onClick}) => (
-  <button onClick={() => onClick(type)}>
-    {name}
+const ColorButton = ({color, onClick}) => (
+  <button onClick={() => onClick(color.type)}>
+    {color.name}
   </button>
 );
 
@@ -23,9 +23,8 @@ const Player = ({id, player, onSetName, onSetColor}) => (
       {_.map(COLORS, (name, type) => (
         <ColorButton
           key={type}
-          type={type}
-          name={name}
-          onClick={() => onSetColor(type)} />)
+          color={{type, name}}
+          onClick={onSetColor} />)
       )}
     </div>
   </div>
