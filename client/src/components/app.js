@@ -10,17 +10,19 @@ export default class App extends React.Component {
   }
 
   render() {
+    const {store} = this.props;
+
     return (
       <div>
         <h1>The Flag</h1>
 
-        <Round />
+        <Round store={store} />
 
         <div style={{clear: "both"}}>
-          <Player id={0} />
-          <Player id={1} />
-          <Player id={2} />
-          <Player id={3} />
+          <Player store={store} id={0} />
+          <Player store={store} id={1} />
+          <Player store={store} id={2} />
+          <Player store={store} id={3} />
         </div>
       </div>
     );
