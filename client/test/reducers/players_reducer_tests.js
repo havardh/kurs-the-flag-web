@@ -1,10 +1,7 @@
 import deepFreeze from "deep-freeze";
 
-import {
-  players,
-  SET_NAME,
-  SET_COLOR
-} from "../../src/reducers/players_reducer";
+import {SET_NAME, SET_COLOR} from "../../src/actions";
+import players from "../../src/reducers/players_reducer";
 
 describe("PlayersReducer", () => {
   let defaultState;

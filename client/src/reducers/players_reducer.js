@@ -1,13 +1,11 @@
 import _ from "lodash";
-
-export const SET_NAME = Symbol("players/set/name");
-export const SET_COLOR = Symbol("players/set/color");
+import {SET_NAME, SET_COLOR} from "../actions";
 
 function replaceAt(iterable, i, o) {
   return _.map(iterable, (item, j) => i === j ? _.assign({}, item, o) : item);
 }
 
-export function players(state = [{}, {}, {}, {}], {type, id, name, color} = {}) {
+export default function players(state = [{}, {}, {}, {}], {type, id, name, color} = {}) {
 
   switch (type) {
     case SET_NAME:
