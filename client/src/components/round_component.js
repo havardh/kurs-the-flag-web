@@ -1,4 +1,5 @@
 import React from "react";
+import {connect} from "react-redux";
 
 import {COLORS} from "../constants/colors";
 
@@ -48,35 +49,13 @@ class GameState extends React.Component {
   }
 }
 
-export default class Round extends React.Component {
+const Round = connect(
+  ({players}) => ({players})
+)((props) => (
+  <div>
+    <ScoreBoard />
+    <GameState players={props.players} />
+  </div>
+));
 
-  constructor(props) {
-    super(props);
-  }
-
-  componentWillMount() {
-    this.unsubscribe = this.props.store.subscribe(this.onStoreChange.bind(this));
-  }
-
-  componentDidMount() {
-    this.onStoreChange();
-  }
-
-  componentDidUnmont() {
-    this.unsubscribe();
-  }
-
-  onStoreChange() {
-    this.setState(this.props.store.getState());
-  }
-
-  render() {
-    return (
-      <div>
-        <ScoreBoard />
-        <GameState players={_.get(this.state, "players")} />
-      </div>
-
-    );
-  }
-}
+export default Round;
