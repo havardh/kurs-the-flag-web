@@ -8,9 +8,9 @@ const port = process.env.PORT || 3003;
 
 var server = express();
 
-server.get("/", (req, res) => {
-  res.json("hello");
-  res.end();
+server.all("*", function(req, res, next) {
+  console.log(req.method + ":", req.url);
+  next();
 });
 
 server.use(bodyParser.json());
