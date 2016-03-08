@@ -14,6 +14,6 @@ server.all("*", function(req, res, next) {
 });
 
 server.use(bodyParser.json());
-server.use("/round", roundApi);
-server.use("/player", playerApi);
+server.use("/api/round", roundApi);
+server.use("/api/player", playerApi);
 server.listen(port);

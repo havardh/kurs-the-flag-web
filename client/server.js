@@ -14,7 +14,7 @@ app.use(require('webpack-dev-middleware')(compiler, {
 }));
 
 app.use(require('webpack-hot-middleware')(compiler));
-app.use("/api", httpProxyMiddleware("http://localhost:3003/api/**"));
+app.use("/api", httpProxyMiddleware("http://localhost:3003/**"));
 
 app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, 'index.html'));
