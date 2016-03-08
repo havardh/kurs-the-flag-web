@@ -1,7 +1,10 @@
 import React from "react";
 import {connect} from "react-redux";
+import * as RoundActions from "../actions/round_action_creator";
 
 import {COLORS} from "../constants/colors";
+
+const roundId = 0;
 
 const ScoreBoard = (props) => (
   <div>
@@ -30,11 +33,27 @@ const GameState = (props) => (
   </div>
 );
 
-const Round = (props) => (
-  <div>
-    <ScoreBoard />
-    <GameState players={props.players} />
-  </div>
-)
+class Round extends React.Component {
 
-export default connect(state => state)(Round);
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    this.props.fetchStatus();
+  }
+
+  render() {
+    return (
+      <div>
+        <ScoreBoard />
+        <GameState players={this.props.players} />
+      </div>
+    );
+  }
+}
+
+export default connect(
+  state => state,
+  (dispatch) => ({fetchStatus: () => RoundActions.fetchStatus(roundId)(dispatch)})
+)(Round);
