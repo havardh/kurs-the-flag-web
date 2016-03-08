@@ -5,6 +5,8 @@ import {connect} from "react-redux";
 import {COLORS} from "../constants/colors";
 import * as PlayerActionCreator from "../actions/player_action_creator";
 
+const roundId = 0;
+
 const ColorButton = ({color, onClick}) => (
   <button onClick={() => onClick(color.type)}>
     {color.name}
@@ -38,7 +40,7 @@ const Players = ({players, setName, setColor}) => (
         player={player}
         id={id}
         onSetName={({target}) => setName(id, target.value)}
-      onSetColor={color => setColor(id, color)}/>
+        onSetColor={color => setColor(id, color)}/>
       )
     )}
   </div>
@@ -48,6 +50,6 @@ export default connect(
   ({players}) => ({players}),
   (dispatch) => ({
     setName: (id, name) => PlayerActionCreator.setName(id, name)(dispatch),
-    setColor: (id, color) => PlayerActionCreator.setColor(id, color)(dispatch)
+    setColor: (id, color) => PlayerActionCreator.setColor(roundId, id, color)(dispatch)
   })
 )(Players);

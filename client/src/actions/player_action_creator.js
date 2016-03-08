@@ -1,3 +1,4 @@
+import * as RoundService from "../services/round_service";
 import {SET_NAME, SET_COLOR} from "./index"
 
 export function setName(id, name) {
@@ -6,8 +7,9 @@ export function setName(id, name) {
   }
 }
 
-export function setColor(id, color) {
+export function setColor(roundId, id, color) {
   return dispatch => {
-    dispatch({type: SET_COLOR, id, color});
+    RoundService.update(roundId, id, color).then(() =>
+      dispatch({type: SET_COLOR, id, color}));
   };
 }
