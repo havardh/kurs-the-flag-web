@@ -12,16 +12,17 @@ class RoundService {
   create(players) {
     console.assert(players.length == 4, "a round should contain 4 players");
 
-    const [p1, p2, p3, p4] = players;
-
     const id = this.rounds.length;
 
-    this.rounds.push([{
-      p1: COLOR.BLUE,
-      p2: COLOR.BLUE,
-      p3: COLOR.BLUE,
-      p4: COLOR.BLUE,
-    }]);
+    this.rounds.push({
+      players: players,
+      ticks: [[
+        COLOR.BLUE,
+        COLOR.BLUE,
+        COLOR.BLUE,
+        COLOR.BLUE,
+      ]]
+    });
 
     return id;
   }
@@ -39,7 +40,7 @@ class RoundService {
 
   _tick(id, ticks, tickLength) {
 
-    this.rounds[id].push(_.cloneDeep(this._lastTick(id)));
+    this.rounds[id].ticks.push(_.cloneDeep(this._lastTick(id)));
 
     if (ticks >= 0) {
       const recur = () => this._tick(id, ticks-1, tickLength);
@@ -50,26 +51,35 @@ class RoundService {
     }
   }
 
-  hasPlayer(id, ip) {
+  hasPlayer(id, playerId) {
     const tick = this._lastTick(id);
-    return tick.hasOwnProperty(ip);
+    return tick.hasOwnProperty(playerId);
   }
 
   status(id) {
-    const tick = this._lastTick(id);
-    return _.map(tick, (color, ip) => ({ ip, color }));
+    return _.zipWith(
+      this._players(id),
+      this._lastTick(id),
+      (player, color) => ({
+        name: player.name,
+        color
+      }
+    ));
   }
 
-  update(id, ip, color) {
+  update(id, playerId, color) {
     const tick = this._lastTick(id);
-    tick[ip] = color;
+    tick[playerId] = color;
+  }
+
+  _players(id) {
+    return this.rounds[id].players;
   }
 
   _lastTick(id) {
     const round = this.rounds[id];
-    return _.last(round);
+    return _.last(round.ticks);
   }
-
 }
 
 export default new RoundService();

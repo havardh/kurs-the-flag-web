@@ -32,11 +32,11 @@ server.get("/:id/status", (req, res) => {
   res.end();
 });
 
-server.post("/:id/update", (req, res) => {
-  const {id} = req.params;
-  const {ip, color} = req.body;
+server.post("/:id/update/:playerId", (req, res) => {
+  const {id, playerId} = req.params;
+  const {color} = req.body;
 
-  if (!RoundService.hasPlayer(id, ip)) {
+  if (!RoundService.hasPlayer(id, playerId)) {
     res.status(404).end();
   }
 
@@ -44,7 +44,7 @@ server.post("/:id/update", (req, res) => {
     res.status(400).end();
   }
 
-  RoundService.update(id, ip, color);
+  RoundService.update(id, playerId, color);
   res.end();
 });
 
