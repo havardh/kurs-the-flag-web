@@ -23,6 +23,14 @@ server.get("/:id/start", (req, res) => {
   res.end();
 });
 
+server.get("/:id/stop", (req, res) => {
+  const {id} = req.params;
+
+  RoundService.stop(id);
+
+  res.end();
+});
+
 server.get("/:id/status", (req, res) => {
   const {id} = req.params;
 
