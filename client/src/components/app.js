@@ -10,8 +10,6 @@ export default class App extends React.Component {
   }
 
   render() {
-    const {store} = this.props;
-
     return (
       <div>
         <h1>The Flag</h1>
