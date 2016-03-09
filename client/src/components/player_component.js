@@ -3,7 +3,7 @@ import React from "react";
 import {connect} from "react-redux";
 
 import {COLORS} from "../constants/colors";
-import * as PlayerActionCreator from "../actions/player_action_creator";
+import {setName, setColor} from "../actions/player_action_creator";
 
 const roundId = 0;
 
@@ -40,7 +40,7 @@ const Players = ({players, setName, setColor}) => (
         player={player}
         id={id}
         onSetName={({target}) => setName(id, target.value)}
-        onSetColor={color => setColor(id, color)}/>
+        onSetColor={color => setColor(roundId, id, color)}/>
       )
     )}
   </div>
@@ -48,8 +48,5 @@ const Players = ({players, setName, setColor}) => (
 
 export default connect(
   ({players}) => ({players}),
-  (dispatch) => ({
-    setName: (id, name) => PlayerActionCreator.setName(id, name)(dispatch),
-    setColor: (id, color) => PlayerActionCreator.setColor(roundId, id, color)(dispatch)
-  })
+  {setName, setColor}
 )(Players);

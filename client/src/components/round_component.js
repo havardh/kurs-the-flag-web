@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import * as RoundActions from "../actions/round_action_creator";
+import {fetchStatus} from "../actions/round_action_creator";
 
 import {COLORS} from "../constants/colors";
 
@@ -40,7 +40,7 @@ class Round extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchStatus();
+    this.props.fetchStatus(roundId);
   }
 
   render() {
@@ -55,5 +55,5 @@ class Round extends React.Component {
 
 export default connect(
   state => state,
-  (dispatch) => ({fetchStatus: () => RoundActions.fetchStatus(roundId)(dispatch)})
+  {fetchStatus}
 )(Round);
