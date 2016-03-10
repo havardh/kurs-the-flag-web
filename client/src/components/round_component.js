@@ -1,12 +1,13 @@
-import React from "react";
-import {connect} from "react-redux";
-import {fetchStatus} from "../actions/round_action_creator";
+import _ from 'lodash';
+import React from 'react';
+import { connect } from 'react-redux';
+import { fetchStatus } from '../actions/round_action_creator';
 
-import {COLORS} from "../constants/colors";
+import { COLORS } from '../constants/colors';
 
 const roundId = 0;
 
-const ScoreBoard = (props) => (
+const ScoreBoard = () => (
   <div>
     <h2>Score</h2>
     <div>Clock: <span>3:20</span></div>
@@ -15,17 +16,21 @@ const ScoreBoard = (props) => (
   </div>
 );
 
-const PlayerState = ({player}) => (
-  <div style={{float: "left", margin: 20 + "px"}}>
-    <h3>{player.name || "Unnamed Player"}</h3>
+const PlayerState = ({ player }) => (
+  <div style={{ float: 'left', margin: '20px' }}>
+    <h3>{player.name || 'Unnamed Player'}</h3>
     <div>Color: <span>{COLORS[player.color]}</span></div>
   </div>
 );
 
-const GameState = (props) => (
+PlayerState.propTypes = {
+  player: React.PropTypes.object,
+};
+
+const GameState = ({ players }) => (
   <div>
-    {_.map(props.players, (player, i) => (
-     <PlayerState
+    {_.map(players, (player, i) => (
+      <PlayerState
         key={i}
         player={player}
       />
@@ -33,11 +38,11 @@ const GameState = (props) => (
   </div>
 );
 
-class Round extends React.Component {
+GameState.propTypes = {
+  players: React.PropTypes.array,
+};
 
-  constructor(props) {
-    super(props);
-  }
+class Round extends React.Component {
 
   componentDidMount() {
     this.props.fetchStatus(roundId);
@@ -53,7 +58,12 @@ class Round extends React.Component {
   }
 }
 
+Round.propTypes = {
+  players: React.PropTypes.array,
+  fetchStatus: React.PropTypes.func,
+};
+
 export default connect(
   state => state,
-  {fetchStatus}
+  { fetchStatus }
 )(Round);

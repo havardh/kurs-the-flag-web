@@ -1,34 +1,36 @@
-import deepFreeze from "deep-freeze";
+/* eslint-env mocha */
+import deepFreeze from 'deep-freeze';
 
-import {SET_NAME, SET_COLOR} from "../../src/actions";
-import players from "../../src/reducers/players_reducer";
+import { SET_NAME, SET_COLOR } from '../../src/actions';
+import players from '../../src/reducers/players_reducer';
 
-describe("PlayersReducer", () => {
+describe('PlayersReducer', () => {
   let defaultState;
-  beforeEach(() => defaultState = deepFreeze(players()));
+  beforeEach(() => {
+    defaultState = deepFreeze(players());
+  });
 
-  it("should default to a list of four players", () => {
+  it('should default to a list of four players', () => {
     expect(defaultState.length).to.equal(4);
   });
 
-  it("should set name of player", () => {
+  it('should set name of player', () => {
     const state = players(defaultState, {
       type: SET_NAME,
       id: 0,
-      name: "Player Name"
+      name: 'Player Name',
     });
 
-    expect(state[0].name).to.equal("Player Name");
+    expect(state[0].name).to.equal('Player Name');
   });
 
-  it("should set color of player", () => {
+  it('should set color of player', () => {
     const state = players(defaultState, {
       type: SET_COLOR,
       id: 2,
-      color: "RED"
+      color: 'RED',
     });
 
-    expect(state[2].color).to.equal("RED");
+    expect(state[2].color).to.equal('RED');
   });
-
 });

@@ -1,23 +1,12 @@
-import React from "react";
+import React from 'react';
 
-import Player from "./player_component";
-import Round from "./round_component";
+import Player from './player_component';
+import Round from './round_component';
 
-export default class App extends React.Component {
-
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <div>
-        <h1>The Flag</h1>
-
-        <Round />
-        <Player />
-
-      </div>
-    );
-  }
-}
+export const App = () => (
+  <div>
+    <h1>The Flag</h1>
+    <Round />
+    <Player />
+  </div>
+);

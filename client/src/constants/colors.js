@@ -1,6 +1,6 @@
-export const COLORS = {
-  RED: "Red",
-  GREEN: "Green",
-  BLUE: "Blue",
-  YELLOW: "Yellow"
+export const COLORS = {
+  RED: 'Red',
+  GREEN: 'Green',
+  BLUE: 'Blue',
+  YELLOW: 'Yellow',
 };
