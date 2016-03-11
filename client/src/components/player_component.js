@@ -5,8 +5,6 @@ import { connect } from 'react-redux';
 import { COLORS } from '../constants/colors';
 import { setName, setColor } from '../actions/player_action_creator';
 
-const roundId = 0;
-
 const ColorButton = ({ color, onClick }) => (
   <button onClick={() => onClick(color.type)}>
     {color.name}
@@ -43,7 +41,7 @@ Player.propTypes = {
   onSetColor: React.PropTypes.func,
 };
 
-const Players = ({ players, setName, setColor }) => (
+const Players = ({ players, setName, setColor, roundId }) => (
   <div style={{ clear: 'both' }}>
     {_.map(players, (player, id) => (
       <Player

@@ -5,8 +5,6 @@ import { fetchStatus } from '../actions/round_action_creator';
 
 import { COLORS } from '../constants/colors';
 
-const roundId = 0;
-
 const ScoreBoard = () => (
   <div>
     <h2>Score</h2>
@@ -45,20 +43,23 @@ GameState.propTypes = {
 class Round extends React.Component {
 
   componentDidMount() {
-    this.props.fetchStatus(roundId);
+      this.props.fetchStatus(this.props.roundId);
   }
 
   render() {
+    const {players, roundId} = this.props;
+
     return (
       <div>
         <ScoreBoard />
-        <GameState players={this.props.players} />
+        <GameState players={players} />
       </div>
     );
   }
 }
 
 Round.propTypes = {
+  roundId: React.PropTypes.string,
   players: React.PropTypes.array,
   fetchStatus: React.PropTypes.func,
 };
