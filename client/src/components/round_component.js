@@ -43,7 +43,15 @@ GameState.propTypes = {
 class Round extends React.Component {
 
   componentDidMount() {
+    if (this.props.roundId !== "simulate/undefined") {
       this.props.fetchStatus(this.props.roundId);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.roundId !== this.props.roundId) {
+      this.props.fetchStatus(nextProps.roundId);
+    }
   }
 
   render() {
