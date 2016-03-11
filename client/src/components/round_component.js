@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import { fetchStatus } from '../actions/round_action_creator';
 
 import { COLORS } from '../constants/colors';
@@ -40,6 +41,14 @@ GameState.propTypes = {
   players: React.PropTypes.array,
 };
 
+const Players = ({ roundId, players }) => (
+  <ul>
+    {_.map(players, ({name}, i) => (
+      <li key={i}><Link to={`/rounds/${roundId}/players/${i}`}>Player {name || i}</Link></li>
+    ))}
+  </ul>
+)
+
 class Round extends React.Component {
 
   componentDidMount() {
@@ -61,6 +70,7 @@ class Round extends React.Component {
       <div>
         <ScoreBoard />
         <GameState players={players} />
+        <Players {...this.props} />
       </div>
     );
   }
