@@ -8,6 +8,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import reducers from './reducers';
 import { App } from './components/app';
 import IndexPage from './pages/index_page';
+import RoundPage from './pages/round_page';
 
 const store = createStore(
   reducers,
@@ -19,6 +20,7 @@ ReactDOM.render(
     <Router history={browserHistory} >
       <Route path="/" component={App}>
         <IndexRoute component={IndexPage}/>
+        <Route path="rounds/:roundId" component={RoundPage} />
       </Route>
     </Router>
 
