@@ -10,6 +10,7 @@ import { App } from './components/app';
 import IndexPage from './pages/index_page';
 import RoundPage from './pages/round_page';
 import RoundPlayerPage from './pages/round_player_page';
+import SimulatePage from './pages/simulate_page';
 
 const store = createStore(
   reducers,
@@ -23,6 +24,8 @@ ReactDOM.render(
         <IndexRoute component={IndexPage}/>
         <Route path="rounds/:roundId" component={RoundPage} />
         <Route path="rounds/:roundId/players/:playerId" component={RoundPlayerPage} />
+
+        <Route path="simulate" component={SimulatePage} />
       </Route>
     </Router>
 
