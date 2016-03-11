@@ -18,9 +18,8 @@ ColorButton.propTypes = {
   onClick: React.PropTypes.func,
 };
 
-const Player = ({ id, player, onChange, onClick }) => (
+export const Player = ({ player, onChange, onClick }) => (
   <div style={{ float: 'left', margin: '20px' }}>
-    <h2>Player {id}</h2>
     <input
       value={player.name}
       onChange={onChange}
@@ -39,7 +38,6 @@ const Player = ({ id, player, onChange, onClick }) => (
 );
 
 Player.propTypes = {
-  id: React.PropTypes.number,
   player: React.PropTypes.object,
   onSetName: React.PropTypes.func,
   onSetColor: React.PropTypes.func,
@@ -51,7 +49,6 @@ const Players = ({ players, setName, setColor }) => (
       <Player
         key={id}
         player={player}
-        id={id}
         onChange={({ target }) => setName(id, target.value)}
         onClick={color => setColor(roundId, id, color)}
       />
