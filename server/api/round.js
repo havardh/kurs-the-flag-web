@@ -2,9 +2,12 @@ import express from "express";
 import _ from "lodash";
 
 import * as COLOR from "../constants/color";
-import RoundService from "../service/round"
+import RoundService from "../service/round";
+import simulationApi from "./simulation";
 
 var server = express();
+
+server.use('/simulate', simulationApi);
 
 server.post("/create", (req, res) => {
   const {players} = req.body;
