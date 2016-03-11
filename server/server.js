@@ -17,3 +17,5 @@ server.use(bodyParser.json());
 server.use("/api/round", roundApi);
 server.use("/api/player", playerApi);
 server.listen(port);
+
+console.log("listening to http://localhost:" + port);
