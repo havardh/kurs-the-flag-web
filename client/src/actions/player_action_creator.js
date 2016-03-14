@@ -8,6 +8,7 @@ export function setName(id, name) {
 }
 
 export function setColor(roundId, id, color) {
+  console.log(roundId, id, color);
   return dispatch => {
     RoundService.update(roundId, id, color).then(() =>
       dispatch({ type: SET_COLOR, id, color }));

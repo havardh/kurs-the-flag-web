@@ -1,4 +1,5 @@
 import _ from "lodash";
+import {EventEmitter} from "events";
 
 import * as COLOR from "../constants/color";
 
@@ -8,6 +9,8 @@ const defaultColors= [
   COLOR.BLUE,
   COLOR.BLUE,
 ];
+
+const eventEmitter = new EventEmitter();
 
 class SimulationService {
 
@@ -19,10 +22,11 @@ class SimulationService {
     const now = this._get(ip);
     now[playerId] = color;
     this.simulations[ip] = now;
+
+    eventEmitter.emit('update');
   }
 
   status(ip) {
-    console.log(this.simulations);
     return this._transform(this._get(ip));
   }
 
@@ -32,6 +36,10 @@ class SimulationService {
 
   _transform(colors) {
     return _.map(colors, (color, name) => ({name, color}));
+  }
+
+  onUpdate(listener) {
+    eventEmitter.addListener('update', listener);
   }
 
 }
