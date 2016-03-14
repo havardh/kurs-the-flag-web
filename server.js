@@ -1,3 +1,4 @@
+/* eslint-disable no-var, vars-on-top */
 require('babel-core/register');
 
 var app = require('./server/app').default;
