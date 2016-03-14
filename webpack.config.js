@@ -15,9 +15,9 @@ module.exports = {
   entry: entry,
   output: {
     filename: 'bundle.js',
-    path: path.resolve('./', 'build'),
+    path: path.resolve('./', 'static'),
     devtoolLineToLine: true,
-    publicPath: '/build/'
+    publicPath: '/static/'
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),

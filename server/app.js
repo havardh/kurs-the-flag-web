@@ -10,11 +10,6 @@ import roundApi from './api/round';
 
 const app = express();
 
-app.all('*', (req, res, next) => {
-  console.log(`${req.method}:${req.url}`); // eslint-disable-line no-console
-  next();
-});
-
 if (config.BABEL_ENV === 'development') {
   const webpackConfig = require('../webpack.config.js');
   const compiler = webpack(webpackConfig);
@@ -24,6 +19,11 @@ if (config.BABEL_ENV === 'development') {
   }));
   app.use(require('webpack-hot-middleware')(compiler));
 }
+
+app.all('*', (req, res, next) => {
+  console.log(`${req.method}:${req.url}`); // eslint-disable-line no-console
+  next();
+});
 
 app.use(bodyParser.json());
 app.use('/api/round', roundApi);
