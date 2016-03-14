@@ -1,0 +1,10 @@
+{
+  "verbose": true,
+  "watch": [
+    "webpack.config.js",
+    "config.js",
+    "server",
+    "package.json"
+  ],
+  "ext": "js json"
+}

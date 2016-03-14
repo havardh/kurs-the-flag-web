@@ -28,15 +28,10 @@ ReactDOM.render(
   <Provider store={store}>
     <Router history={browserHistory} >
       <Route path="/" component={App}>
-        <IndexRoute component={IndexPage}/>
-        <Route path="players" component={PlayersPage} />
-        <Route path="players/:roundId" component={PlayerPage} />
-
-        <Route path="rounds/start" component={StartRoundPage} />
+        <IndexRoute component={IndexPage} />
         <Route path="rounds/:roundId" component={RoundPage} />
-
         <Route path="rounds/:roundId/players/:playerId" component={RoundPlayerPage} />
-
+        <Route path="rounds/start" component={StartRoundPage} />
         <Route path="simulate" component={SimulatePage} />
       </Route>
     </Router>
