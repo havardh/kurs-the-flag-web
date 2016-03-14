@@ -15,11 +15,11 @@ app.use(require('webpack-dev-middleware')(compiler, {
 app.use(require('webpack-hot-middleware')(compiler));
 app.use('/api', httpProxyMiddleware('http://localhost:3003/**'));
 
-app.get('*', (req, res) => {
+app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.listen(3000, 'localhost', err => {
+app.listen(3000, 'localhost', function (err) {
   if (err) {
     console.log(err); // eslint-disable-line no-console
     return;
