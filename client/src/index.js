@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
+import '../styles/main.styl';
 import reducers from './reducers';
 import { App } from './components/app';
 import IndexPage from './pages/index_page';
