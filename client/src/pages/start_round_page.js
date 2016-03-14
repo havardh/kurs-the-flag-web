@@ -1,5 +1,5 @@
-import React from "react";
-import { browserHistory } from 'react-router'
+import React from 'react';
+import { browserHistory } from 'react-router';
 
 
 class StartRoundPage extends React.Component {

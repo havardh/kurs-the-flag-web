@@ -43,16 +43,16 @@ GameState.propTypes = {
 
 const Players = ({ roundId, players }) => (
   <ul>
-    {_.map(players, ({name}, i) => (
+    {_.map(players, ({ name }, i) => (
       <li key={i}><Link to={`/rounds/${roundId}/players/${i}`}>Player {name || i}</Link></li>
     ))}
   </ul>
-)
+);
 
 class Round extends React.Component {
 
   componentDidMount() {
-    if (this.props.roundId !== "simulate/undefined") {
+    if (this.props.roundId !== 'simulate/undefined') {
       this.props.fetchStatus(this.props.roundId);
     }
   }
@@ -64,7 +64,7 @@ class Round extends React.Component {
   }
 
   render() {
-    const {players, roundId} = this.props;
+    const { players, roundId } = this.props;
 
     return (
       <div>

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {SET_COLOR, SET_NAME} from '../actions';
+import { SET_COLOR, SET_NAME } from '../actions';
 
 export function init(store) {
   const W3CWebSocket = require('websocket').w3cwebsocket;
@@ -36,5 +36,5 @@ export function init(store) {
       });
 
     }
-  }
+  };
 }

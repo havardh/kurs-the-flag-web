@@ -10,12 +10,12 @@ export default React.createClass({
     return {};
   },
 
-  onBlur({target}) {
-    this.setState({playerId: target.value});
+  onBlur({ target }) {
+    this.setState({ playerId: target.value });
   },
 
   render() {
-    const {playerId} = this.state;
+    const { playerId } = this.state;
 
     return (
       <div>
@@ -25,7 +25,7 @@ export default React.createClass({
           </label>
         </p>
 
-        <Round roundId={`simulate/${playerId}`}/>
+        <Round roundId={`simulate/${playerId}`} />
         <Players roundId={`simulate/${playerId}`} />
       </div>
     );

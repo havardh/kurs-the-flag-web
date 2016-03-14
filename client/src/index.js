@@ -16,7 +16,7 @@ import RoundPage from './pages/round_page';
 import RoundPlayerPage from './pages/round_player_page';
 import SimulatePage from './pages/simulate_page';
 
-import {init} from './sockets';
+import { init } from './sockets';
 
 const store = createStore(
   reducers,

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import { connect } from 'react-redux';
 
 import { Player } from '../components/player_component';
@@ -6,7 +6,7 @@ import { setName, setColor } from '../actions/player_action_creator';
 
 const RoundPlayerPage = React.createClass({
 
-  onChange({target}) {
+  onChange({ target }) {
     const { roundId, playerId } = this.props.params;
     this.props.setName(playerId, target.value);
   },

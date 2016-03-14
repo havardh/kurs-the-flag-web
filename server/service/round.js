@@ -1,6 +1,6 @@
-import _ from "lodash";
+import _ from 'lodash';
 
-import * as COLOR from "../constants/color";
+import * as COLOR from '../constants/color';
 
 class RoundService {
 
@@ -10,7 +10,7 @@ class RoundService {
   }
 
   create(players) {
-    console.assert(players.length == 4, "a round should contain 4 players");
+    console.assert(players.length == 4, 'a round should contain 4 players');
 
     const id = this.rounds.length;
 
@@ -28,7 +28,7 @@ class RoundService {
   }
 
   start(id, ticks, tickLength) {
-    this._tick(id, ticks-1, tickLength);
+    this._tick(id, ticks - 1, tickLength);
   }
 
   stop(id) {
@@ -43,7 +43,7 @@ class RoundService {
     this.rounds[id].ticks.push(_.cloneDeep(this._lastTick(id)));
 
     if (ticks >= 0) {
-      const recur = () => this._tick(id, ticks-1, tickLength);
+      const recur = () => this._tick(id, ticks - 1, tickLength);
       const timeoutId = setTimeout(recur, tickLength);
       this.onGoingTimouts[id] = timoutId;
     } else {

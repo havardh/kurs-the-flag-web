@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 
 import Round from '../components/round_component';
 
-const RoundPage = ({params}) => (
+const RoundPage = ({ params }) => (
   <div>
-    <Round roundId={params.roundId}/>
+    <Round roundId={params.roundId} />
   </div>
 );
 

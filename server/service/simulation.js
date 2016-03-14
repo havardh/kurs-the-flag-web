@@ -1,9 +1,9 @@
-import _ from "lodash";
-import {EventEmitter} from "events";
+import _ from 'lodash';
+import { EventEmitter } from 'events';
 
-import * as COLOR from "../constants/color";
+import * as COLOR from '../constants/color';
 
-const defaultColors= [
+const defaultColors = [
   COLOR.BLUE,
   COLOR.BLUE,
   COLOR.BLUE,
@@ -35,7 +35,7 @@ class SimulationService {
   }
 
   _transform(colors) {
-    return _.map(colors, (color, name) => ({name, color}));
+    return _.map(colors, (color, name) => ({ name, color }));
   }
 
   onUpdate(listener) {
