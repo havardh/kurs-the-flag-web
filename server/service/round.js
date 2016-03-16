@@ -1,6 +1,9 @@
 import _ from 'lodash';
+import { EventEmitter } from 'events';
 
 import * as COLOR from '../constants/color';
+
+const eventEmitter = new EventEmitter();
 
 class RoundService {
 
@@ -38,8 +41,24 @@ class RoundService {
     }
   }
 
-  _tick(id, ticks, tickLength) {
+  isActive(id) {
+    return !!this.onGoingTimeouts[id];
+  }
 
+  findLastActiveRoundDetails(ip) {
+    const activeRounds = _.filter(this.rounds,
+      (round, id) => this.isActive(id));
+
+    const roundId = _.findLastIndex(activeRounds,
+      round => _.find(round.players, "ip", ip));
+
+    if (roundId) {
+      const playerId = _.findIndex(this.rounds[roundId], "ip", ip);
+      return {roundId, playerId};
+    }
+  }
+
+  _tick(id, ticks, tickLength) {
     this.rounds[id].ticks.push(_.cloneDeep(this._lastTick(id)));
 
     if (ticks >= 0) {
@@ -70,6 +89,8 @@ class RoundService {
   update(id, playerId, color) {
     const tick = this._lastTick(id);
     tick[playerId] = color;
+
+    eventEmitter.emit('update', id);
   }
 
   _players(id) {
@@ -79,6 +100,14 @@ class RoundService {
   _lastTick(id) {
     const round = this.rounds[id];
     return _.last(round.ticks);
+  }
+
+  onUpdate(listener) {
+    eventEmitter.addListener('update', listener);
+  }
+
+  offUpdate(listener) {
+    eventEmitter.removeListener('update', listener);
   }
 }
 
