@@ -52,7 +52,7 @@ class RoundService {
     const roundId = _.findLastIndex(activeRounds,
       round => _.find(round.players, "ip", ip));
 
-    if (roundId) {
+    if (roundId !== -1) {
       const playerId = _.findIndex(this.rounds[roundId], "ip", ip);
       return {roundId, playerId};
     }
