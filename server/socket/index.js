@@ -14,8 +14,6 @@ function register(ip, name) {
 function update(ip, color) {
   const { roundId, playerId } = RoundService.findLastActiveRoundDetails(ip) || {};
 
-  console.log(roundId, playerId);
-
   if (roundId) {
     RoundService.update(roundId, playerId, color);
   } else {
@@ -24,7 +22,6 @@ function update(ip, color) {
 }
 
 function handleMessage(ip, { type, name, color }) {
-  console.log(ip, type, name, color);
   switch (type) {
     case 'register':
       register(ip, name);
@@ -60,7 +57,6 @@ wsServer.on('request', (request) => {
     if (!RoundService.findLastActiveRoundDetails(ip)) {
       const status = SimulationService.status(ip);
       connection.send(JSON.stringify(status));
-      console.log("reply to", ip);
     }
   };
 
@@ -75,12 +71,15 @@ wsServer.on('request', (request) => {
   RoundService.onUpdate(onRoundUpdate);
 
   connection.on('message', message => {
-    console.log(message);
     if (message.type === 'utf8') {
-      const action = JSON.parse(message.utf8Data);
-      handleMessage(ip, action);
+      try {
+        const action = JSON.parse(message.utf8Data);
+        handleMessage(ip, action);
+      } catch (e) {
+        console.log("Recevied non-JSON message", message);
+      }
     } else if (message.type === 'binary') {
-      connection.sendBytes(message.binaryData);
+      console.log("Recevied non-JSON message", message);
     }
   });
 
