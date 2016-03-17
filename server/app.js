@@ -1,12 +1,12 @@
 import bodyParser from 'body-parser';
 import express from 'express';
 import path from 'path';
-import socket from './socket';
+import socket from './src/socket';
 import webpack from 'webpack';
 
 import * as config from '../config';
-import playerApi from './api/player';
-import roundApi from './api/round';
+import playerApi from './src/api/player';
+import roundApi from './src/api/round';
 
 const app = express();
 
