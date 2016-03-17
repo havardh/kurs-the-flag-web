@@ -47,9 +47,18 @@ const wsServer = new WebSocketServer({
   autoAcceptConnections: false,
 });
 
+function accept(request) {
+  try {
+    const connection = request.accept('echo-protocol', request.origin);
+    console.log(`${new Date()} Connection accepted.`);
+    return connection;
+  } catch (e) {
+    console.log("Could not accept connection:", e);
+  }
+}
+
 wsServer.on('request', (request) => {
-  const connection = request.accept('echo-protocol', request.origin);
-  console.log(`${new Date()} Connection accepted.`);
+  const connection = accept(request);
 
   const ip = connection.socket.remoteAddress;
 
