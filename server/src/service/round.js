@@ -13,18 +13,18 @@ class RoundService {
   }
 
   create(players) {
-    console.assert(players.length == 4, 'a round should contain 4 players');
+    console.assert(players.length === 4, 'a round should contain 4 players');
 
     const id = this.rounds.length;
 
     this.rounds.push({
-      players: players,
+      players,
       ticks: [[
         COLOR.BLUE,
         COLOR.BLUE,
         COLOR.BLUE,
         COLOR.BLUE,
-      ]]
+      ]],
     });
 
     return id;
@@ -50,12 +50,14 @@ class RoundService {
       (round, id) => this.isActive(id));
 
     const roundId = _.findLastIndex(activeRounds,
-      round => _.find(round.players, "ip", ip));
+      round => _.find(round.players, 'ip', ip));
 
     if (roundId !== -1) {
-      const playerId = _.findIndex(this.rounds[roundId], "ip", ip);
-      return {roundId, playerId};
+      const playerId = _.findIndex(this.rounds[roundId], 'ip', ip);
+      return { roundId, playerId };
     }
+
+    return undefined;
   }
 
   _tick(id, ticks, tickLength) {
@@ -64,7 +66,7 @@ class RoundService {
     if (ticks >= 0) {
       const recur = () => this._tick(id, ticks - 1, tickLength);
       const timeoutId = setTimeout(recur, tickLength);
-      this.onGoingTimouts[id] = timoutId;
+      this.onGoingTimouts[id] = timeoutId;
     } else {
       this.stop(id);
     }
@@ -81,7 +83,7 @@ class RoundService {
       this._lastTick(id),
       (player, color) => ({
         name: player.name,
-        color
+        color,
       }
     ));
   }

@@ -1,5 +1,3 @@
-import _ from "lodash";
-
 class PlayerService {
 
   constructor() {
@@ -7,7 +5,7 @@ class PlayerService {
   }
 
   register(ip, name) {
-    const player = {ip, name};
+    const player = { ip, name };
     this.players.push(player);
     return ip;
   }
