@@ -1,6 +1,14 @@
 import _ from 'lodash';
+
 import * as RoundService from '../services/round_service';
-import { SET_NAME, SET_COLOR } from './index';
+import { SET_NAME, SET_COLOR, START_ROUND } from './';
+
+export function startRound(data) {
+  return dispatch => {
+    console.log('starting round?', data)
+    return dispatch({ type: START_ROUND, data });
+  }
+}
 
 export function fetchStatus(id) {
   return dispatch =>

@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import { Provider } from 'react-redux';
+import { compose, createStore, applyMiddleware } from 'redux';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
 import '../styles/main.styl';
@@ -17,11 +17,14 @@ import RoundPlayerPage from './pages/round_player_page';
 import SimulatePage from './pages/simulate_page';
 
 import { init } from './sockets';
-
-const store = createStore(
-  reducers,
-  applyMiddleware(thunk)
-);
+const finalcreateStore = compose(applyMiddleware(thunk))(createStore);
+const store = finalcreateStore(reducers, {
+  players: [
+    { ip: '10.0.0.1', name: '🐙' },
+    { ip: '10.0.0.2', name: '🐠' },
+    { ip: '10.0.0.3', name: '🐣' },
+  ],
+});
 
 init(store);
 
@@ -30,9 +33,9 @@ ReactDOM.render(
     <Router history={browserHistory} >
       <Route path="/" component={App}>
         <IndexRoute component={IndexPage} />
+        <Route path="rounds/start" component={StartRoundPage} />
         <Route path="rounds/:roundId" component={RoundPage} />
         <Route path="rounds/:roundId/players/:playerId" component={RoundPlayerPage} />
-        <Route path="rounds/start" component={StartRoundPage} />
         <Route path="simulate" component={SimulatePage} />
       </Route>
     </Router>
