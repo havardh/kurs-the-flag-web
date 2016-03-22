@@ -23,7 +23,7 @@ class SimulationService {
     now[playerId] = color;
     this.simulations[ip] = now;
 
-    eventEmitter.emit('update');
+    eventEmitter.emit('update', ip);
   }
 
   status(ip) {
@@ -40,6 +40,10 @@ class SimulationService {
 
   onUpdate(listener) {
     eventEmitter.addListener('update', listener);
+  }
+
+  offUpdate(listener) {
+    eventEmitter.removeListener('update', listener);
   }
 
 }

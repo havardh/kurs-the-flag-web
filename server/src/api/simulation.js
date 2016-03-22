@@ -1,7 +1,5 @@
 import express from 'express';
-import _ from 'lodash';
 
-import * as COLOR from '../constants/color';
 import SimulationService from '../service/simulation';
 
 const server = express();

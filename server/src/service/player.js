@@ -4,12 +4,10 @@ class PlayerService {
     this.players = [];
   }
 
-  create(player) {
-    const id = this.players.length;
-
+  register(ip, name) {
+    const player = { ip, name };
     this.players.push(player);
-
-    return id;
+    return ip;
   }
 
   list() {

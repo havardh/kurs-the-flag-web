@@ -4,8 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha --recursive --require babel-core/register --reporter dot test/config/setup.js test/* || true",
-    "watch": "./node_modules/mocha/bin/mocha --recursive --watch  --require babel-core/register --reporter dot test/config/setup.js test/* || true",
+    "test": "./node_modules/mocha/bin/mocha --recursive --require babel-core/register --reporter dot test/config/setup.js **/test/* || true",
+    "watch": "./node_modules/mocha/bin/mocha --recursive --watch  --require babel-core/register --reporter dot test/config/setup.js **/test/* || true",
     "lint": "eslint client server config.js server.js || true",
     "watch:lint": "esw -w client server config.js server.js",
     "start": "nodemon server.js --exec babel-node --presets es2015"

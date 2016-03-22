@@ -1,6 +1,9 @@
 import _ from 'lodash';
+import { EventEmitter } from 'events';
 
 import * as COLOR from '../constants/color';
+
+const eventEmitter = new EventEmitter();
 
 class RoundService {
 
@@ -10,18 +13,18 @@ class RoundService {
   }
 
   create(players) {
-    console.assert(players.length == 4, 'a round should contain 4 players');
+    console.assert(players.length === 4, 'a round should contain 4 players');
 
     const id = this.rounds.length;
 
     this.rounds.push({
-      players: players,
+      players,
       ticks: [[
         COLOR.BLUE,
         COLOR.BLUE,
         COLOR.BLUE,
         COLOR.BLUE,
-      ]]
+      ]],
     });
 
     return id;
@@ -38,14 +41,32 @@ class RoundService {
     }
   }
 
-  _tick(id, ticks, tickLength) {
+  isActive(id) {
+    return !!this.onGoingTimeouts[id];
+  }
 
+  findLastActiveRoundDetails(ip) {
+    const activeRounds = _.filter(this.rounds,
+      (round, id) => this.isActive(id));
+
+    const roundId = _.findLastIndex(activeRounds,
+      round => _.find(round.players, 'ip', ip));
+
+    if (roundId !== -1) {
+      const playerId = _.findIndex(this.rounds[roundId], 'ip', ip);
+      return { roundId, playerId };
+    }
+
+    return undefined;
+  }
+
+  _tick(id, ticks, tickLength) {
     this.rounds[id].ticks.push(_.cloneDeep(this._lastTick(id)));
 
     if (ticks >= 0) {
       const recur = () => this._tick(id, ticks - 1, tickLength);
       const timeoutId = setTimeout(recur, tickLength);
-      this.onGoingTimouts[id] = timoutId;
+      this.onGoingTimouts[id] = timeoutId;
     } else {
       this.stop(id);
     }
@@ -62,7 +83,7 @@ class RoundService {
       this._lastTick(id),
       (player, color) => ({
         name: player.name,
-        color
+        color,
       }
     ));
   }
@@ -70,6 +91,8 @@ class RoundService {
   update(id, playerId, color) {
     const tick = this._lastTick(id);
     tick[playerId] = color;
+
+    eventEmitter.emit('update', id);
   }
 
   _players(id) {
@@ -79,6 +102,14 @@ class RoundService {
   _lastTick(id) {
     const round = this.rounds[id];
     return _.last(round.ticks);
+  }
+
+  onUpdate(listener) {
+    eventEmitter.addListener('update', listener);
+  }
+
+  offUpdate(listener) {
+    eventEmitter.removeListener('update', listener);
   }
 }
 

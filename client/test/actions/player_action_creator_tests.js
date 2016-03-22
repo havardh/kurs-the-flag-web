@@ -1,6 +1,7 @@
 /* eslint-env mocha */
 /* eslint-disable no-unused-expressions*/
 import { setName, setColor } from '../../src/actions/player_action_creator';
+import * as RoundService from '../../src/services/round_service';
 import { SET_NAME, SET_COLOR } from '../../src/actions';
 
 describe('PlayerActionCreator', () => {
@@ -59,9 +60,16 @@ describe('PlayerActionCreator', () => {
     });
 
     describe('returned callback', () => {
-      let dispatch;
+      let dispatch, spy;
       beforeEach(() => {
         dispatch = sinon.spy();
+        spy = sinon.stub(RoundService, "update").returns(Promise.resolve({}));
+      });
+
+      it("should call update on RoundService", () => {
+        fn(dispatch);
+
+        expect(spy).to.have.been.called;
       });
 
       it('call dispatch', () => {

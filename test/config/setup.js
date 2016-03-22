@@ -5,5 +5,8 @@ import sinonChai from 'sinon-chai';
 chai.use(sinonChai);
 chai.should();
 
+const sandbox = sinon.sandbox.create();
+afterEach(() => sandbox.restore());
+
 global.expect = chai.expect;
-global.sinon = sinon;
+global.sinon = sandbox;
