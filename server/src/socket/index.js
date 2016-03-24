@@ -68,6 +68,7 @@ wsServer.on('request', (request) => {
   }
 
   const ip = connection.socket.remoteAddress;
+  console.log(`Connected to: ${ip}`);
 
   const onSimulationUpdate = clientIp => {
     if (ip === clientIp && !RoundService.findLastActiveRoundDetails(ip)) {
