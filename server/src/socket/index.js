@@ -50,7 +50,7 @@ const wsServer = new WebSocketServer({
 
 function accept(request) {
   try {
-    const connection = request.accept('echo-protocol', request.origin);
+    const connection = request.accept(null, request.origin);
     console.log(`${new Date()} Connection accepted.`);
     return connection;
   } catch (e) {
