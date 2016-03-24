@@ -62,6 +62,10 @@ function accept(request) {
 wsServer.on('request', (request) => {
   const connection = accept(request);
 
+  if (!connection) {
+    return;
+  }
+
   const ip = connection.socket.remoteAddress;
 
   const onSimulationUpdate = clientIp => {
