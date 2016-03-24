@@ -1,4 +1,5 @@
 // eslint-disable no-console
+import _ from "lodash";
 import * as websocket from 'websocket';
 import http from 'http';
 
@@ -71,7 +72,8 @@ wsServer.on('request', (request) => {
   const onSimulationUpdate = clientIp => {
     if (ip === clientIp && !RoundService.findLastActiveRoundDetails(ip)) {
       const status = SimulationService.status(ip);
-      connection.send(JSON.stringify(status));
+      const message = { type: 'status', status: _.map(status, 'color') };
+      connection.send(JSON.stringify(message));
     }
   };
 
