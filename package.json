@@ -48,6 +48,7 @@
     "body-parser": "1.15.0",
     "deep-freeze": "0.0.1",
     "express": "4.13.4",
+    "left-pad": "1.0.1",
     "lodash": "4.6.1",
     "nodemon": "1.9.1",
     "react": "15.0.0-rc.1",
