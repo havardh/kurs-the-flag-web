@@ -41,6 +41,22 @@ function handleMessage(ip, { type, name, color }) {
   }
 }
 
+function orderForPlayer(colors, playerId) {
+  const [p1, p2, p3, p4] = colors;
+
+  if (playerId === 0) {
+    return [p1, p2, p3, p4];
+  } else if (playerId === 1) {
+    return [p2, p1, p3, p4];
+  } else if (playerId === 2) {
+    return [p3, p4, p1, p2];
+  } else if (playerId === 3) {
+    return [p4, p3, p1, p2];
+  }
+
+  return colors;
+}
+
 const server = http.createServer((request, response) => {
   console.log(`${new Date()} Received request for ${request.url}`);
   response.writeHead(404);
@@ -95,12 +111,15 @@ wsServer.on('request', (request) => {
   const onRoundUpdate = roundId => {
     const roundDetails = RoundService.findLastActiveRoundDetails(ip);
     if (roundDetails.roundId === roundId) {
-      const status = RoundService.status(roundId);
+      const status = RoundService.status(roundId)
+
+      const colors = orderForPlayer(_.map(status, 'color'), roundDetails.playerId);
+
       const message = {
         type: 'status',
         isActive: RoundService.isActive(roundId),
         target: roundDetails.playerId <= 1 ? POSITIONS.TEAM_2.BASE : POSITIONS.TEAM_1.BASE,
-        status: _.map(status, 'color'),
+        status: colors,
       };
       connection.send(JSON.stringify(message));
     }
@@ -111,6 +130,8 @@ wsServer.on('request', (request) => {
 
     if (String(roundDetails.roundId) === roundId) {
       const status = RoundService.status(roundId);
+
+      const colors = orderForPlayer(_.map(status, 'color'), roundDetails.playerId);
       const message = {
         type: 'status',
         isActive: false,
