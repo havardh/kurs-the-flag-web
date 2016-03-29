@@ -4,6 +4,7 @@ import { EventEmitter } from 'events';
 import * as COLOR from '../constants/color';
 
 const eventEmitter = new EventEmitter();
+const { assert } = console;
 
 class RoundService {
 
@@ -13,7 +14,11 @@ class RoundService {
   }
 
   create(players) {
-    console.assert(players.length === 4, 'a round should contain 4 players');
+    assert(players.length === 4, 'a round should contain 4 players');
+    assert(_.isString(players[0]), 'a player should be truthy');
+    assert(_.isString(players[1]), 'a player should be truthy');
+    assert(_.isString(players[2]), 'a player should be truthy');
+    assert(_.isString(players[3]), 'a player should be truthy');
 
     const id = this.rounds.length;
 
