@@ -2,6 +2,7 @@ import express from 'express';
 
 import * as COLOR from '../constants/color';
 import RoundService from '../service/round';
+import StatsService from '../service/stats';
 import simulationApi from './simulation';
 
 const server = express();
@@ -37,8 +38,9 @@ server.get('/:id/status', (req, res) => {
   const { id } = req.params;
 
   const status = RoundService.status(id);
+  const score = RoundService.stats(id);
 
-  res.json(status);
+  res.json({ status, score });
   res.end();
 });
 
