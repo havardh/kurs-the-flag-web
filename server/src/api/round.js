@@ -40,8 +40,9 @@ server.get('/:id/status', (req, res) => {
 
   const status = RoundService.status(id);
   const score = RoundService.stats(id);
+  const ticks = RoundService.ticksLeft(id);
 
-  res.json({ status, score });
+  res.json({ status, score, ticks });
   res.end();
 });
 

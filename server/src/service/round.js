@@ -25,6 +25,7 @@ class RoundService {
 
     this.rounds.push({
       players,
+      ticksLeft: 100,
       ticks: [[
         COLOR.BLUE,
         COLOR.BLUE,
@@ -45,6 +46,10 @@ class RoundService {
       clearTimeout(this.onGoingTimeouts[id]);
       delete this.onGoingTimeouts[id];
     }
+  }
+
+  ticksLeft(id) {
+    return this.rounds[id].ticksLeft;
   }
 
   isActive(id) {
@@ -75,6 +80,7 @@ class RoundService {
 
   _tick(id, numTicks, tickLength) {
     this.rounds[id].ticks.push(_.cloneDeep(this._lastTick(id)));
+    this.rounds[id].ticksLeft = numTicks;
 
     if (numTicks >= 0) {
       const recur = () => this._tick(id, numTicks - 1, tickLength);
