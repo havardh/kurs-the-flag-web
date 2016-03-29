@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { EventEmitter } from 'events';
 
 import * as COLOR from '../constants/color';
+import * as StatsService from './stats';
 
 const eventEmitter = new EventEmitter();
 const { assert } = console;
@@ -63,6 +64,10 @@ class RoundService {
     }
 
     return undefined;
+  }
+
+  stats(id) {
+    return StatsService.getScore(this.rounds[id].ticks);
   }
 
   _tick(id, ticks, tickLength) {

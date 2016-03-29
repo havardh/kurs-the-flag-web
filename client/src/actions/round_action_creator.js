@@ -17,7 +17,7 @@ export function startRound(teams) {
 export function fetchStatus(id) {
   return dispatch =>
     RoundService.status(id).then(({ data }) => {
-      _.map(data, ({ color, name }, i) => {
+      _(data.status).forEach(({ color, name }, i) => {
         dispatch({ type: SET_COLOR, id: i, color });
         dispatch({ type: SET_NAME, id: i, name });
       });

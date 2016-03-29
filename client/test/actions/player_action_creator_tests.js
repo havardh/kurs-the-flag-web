@@ -52,7 +52,7 @@ describe('PlayerActionCreator', () => {
   describe('.setColor', () => {
     let fn;
     beforeEach(() => {
-      fn = setColor(id, color);
+      fn = setColor(0, id, color);
     });
 
     it('should return a callback', () => {
@@ -60,37 +60,38 @@ describe('PlayerActionCreator', () => {
     });
 
     describe('returned callback', () => {
-      let dispatch, spy;
+      let dispatch;
+      let spy;
       beforeEach(() => {
         dispatch = sinon.spy();
-        spy = sinon.stub(RoundService, "update").returns(Promise.resolve({}));
+        spy = sinon.stub(RoundService, 'update').returns(Promise.resolve({}));
       });
 
-      it("should call update on RoundService", () => {
+      it('should call update on RoundService', () => {
         fn(dispatch);
 
         expect(spy).to.have.been.called;
       });
 
       it('call dispatch', () => {
-        fn(dispatch);
-
-        expect(dispatch).to.have.been.called;
+        return fn(dispatch).then(() => {
+          expect(dispatch).to.have.been.called;
+        });
       });
 
       it('should pass type SET_NAME to dispatch', () => {
-        fn(dispatch);
-
-        dispatch.should.have.been.calledWithMatch({
-          type: SET_COLOR,
+        return fn(dispatch).then(() => {
+          dispatch.should.have.been.calledWithMatch({
+            type: SET_COLOR,
+          });
         });
       });
 
       it('should pass id and color to dispatch', () => {
-        fn(dispatch);
-
-        expect(dispatch).to.have.been.calledWithMatch({
-          id, color,
+        return fn(dispatch).then(() => {
+          expect(dispatch).to.have.been.calledWithMatch({
+            id, color,
+          });
         });
       });
     });
