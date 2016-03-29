@@ -57,14 +57,11 @@ class RoundService {
   }
 
   findLastActiveRoundDetails(ip) {
-    const activeRounds = _.filter(this.rounds,
-      (round, id) => this.isActive(id));
-
-    const roundId = _.findLastIndex(activeRounds,
-      round => _.find(round.players, 'ip', ip));
+    const roundId = _.findLastIndex(this.rounds,
+      (round, id) => !!_.find(round.players, v => v === ip) && this.isActive(id));
 
     if (roundId !== -1) {
-      const playerId = _.findIndex(this.rounds[roundId], 'ip', ip);
+      const playerId = _.findIndex(this.rounds[roundId].players, v => v === ip);
 
       if (playerId !== -1) {
         return { roundId, playerId };

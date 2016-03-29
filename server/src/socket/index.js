@@ -9,6 +9,8 @@ import SimulationService from '../service/simulation';
 
 const WebSocketServer = websocket.server;
 
+const ipRegex = /((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))/;
+
 function register(ip, name) {
   PlayerService.register(ip, name);
 }
@@ -16,9 +18,11 @@ function register(ip, name) {
 function update(ip, color) {
   const { roundId, playerId } = RoundService.findLastActiveRoundDetails(ip) || {};
 
-  if (roundId) {
+  if (roundId !== undefined) {
+    console.log("Round update", roundId, ip, color);
     RoundService.update(roundId, playerId, color);
   } else {
+    console.log("Simulation update", ip, color);
     SimulationService.update(ip, 0, color);
   }
 }
@@ -67,7 +71,7 @@ wsServer.on('request', (request) => {
     return;
   }
 
-  const ip = connection.socket.remoteAddress;
+  const ip = connection.socket.remoteAddress.match(ipRegex)[0];
   console.log(`Connected to: ${ip}`);
 
   const onSimulationUpdate = clientIp => {
@@ -81,7 +85,8 @@ wsServer.on('request', (request) => {
   const onRoundUpdate = roundId => {
     if (RoundService.findLastActiveRoundDetails(ip).roundId === roundId) {
       const status = RoundService.status(roundId);
-      connection.send(JSON.stringify(status));
+      const message = { type: 'status', status: _.map(status, 'color') };
+      connection.send(JSON.stringify(message));
     }
   };
 
