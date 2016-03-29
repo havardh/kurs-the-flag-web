@@ -66,7 +66,6 @@ class RoundService {
       const playerId = _.findIndex(this.rounds[roundId].players, v => v === ip);
 
       if (playerId !== -1) {
-        console.log(roundId, playerId);
         return { roundId, playerId };
       }
     }

@@ -6,6 +6,7 @@ import http from 'http';
 import PlayerService from '../service/player';
 import RoundService from '../service/round';
 import SimulationService from '../service/simulation';
+import * as POSITIONS from '../constants/positions';
 
 const WebSocketServer = websocket.server;
 
@@ -84,6 +85,7 @@ wsServer.on('request', (request) => {
       const message = {
         type: 'status',
         isActive: true,
+        target: POSITIONS.TEAM_2.BASE,
         status: _.map(status, 'color'),
       };
       connection.send(JSON.stringify(message));
@@ -91,11 +93,13 @@ wsServer.on('request', (request) => {
   };
 
   const onRoundUpdate = roundId => {
-    if (RoundService.findLastActiveRoundDetails(ip).roundId === roundId) {
+    const roundDetails = RoundService.findLastActiveRoundDetails(ip);
+    if (roundDetails.roundId === roundId) {
       const status = RoundService.status(roundId);
       const message = {
         type: 'status',
         isActive: RoundService.isActive(roundId),
+        target: roundDetails.playerId <= 1 ? POSITIONS.TEAM_2.BASE : POSITIONS.TEAM_1.BASE,
         status: _.map(status, 'color'),
       };
       connection.send(JSON.stringify(message));
@@ -110,6 +114,7 @@ wsServer.on('request', (request) => {
       const message = {
         type: 'status',
         isActive: false,
+        target: roundDetails.playerId <= 1 ? POSITIONS.TEAM_2.BASE : POSITIONS.TEAM_1.BASE,
         status: _.map(status, 'color'),
       };
       connection.send(JSON.stringify(message));
