@@ -1,12 +1,12 @@
-import React from 'react';
+import { connect } from 'react-redux';
 
-import Round from '../components/round_component';
+import { fetchStatus } from '../actions/round_action_creator';
+import { Round } from '../components/round_component';
 
-const RoundPage = ({ params }) => (
-  <div>
-    <Round roundId={params.roundId} />
-  </div>
-);
-
-
-export default RoundPage;
+export default connect(
+  ({ round }, { params }) => ({
+    round,
+    roundId: params.roundId,
+  }),
+  { fetchStatus }
+)(Round);

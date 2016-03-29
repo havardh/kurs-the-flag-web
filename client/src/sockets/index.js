@@ -1,10 +1,11 @@
 import _ from 'lodash';
-import { SET_COLOR, SET_NAME } from '../actions';
+
+import { setColor, setName } from '../actions/round_action_creator';
 
 export function init(store) {
   const W3CWebSocket = require('websocket').w3cwebsocket;
 
-  var client = new W3CWebSocket('ws://localhost:3004/', 'echo-protocol');
+  const client = new W3CWebSocket('ws://localhost:3004/', 'echo-protocol');
 
   client.onerror = () => console.log('Connection Error');
 
@@ -31,10 +32,9 @@ export function init(store) {
       console.log('Recevied:', status);
 
       _.map(status, ({ color, name }, i) => {
-        store.dispatch({ type: SET_COLOR, id: i, color });
-        store.dispatch({ type: SET_NAME, id: i, name });
+        store.dispatch(setColor(i, color));
+        store.dispatch(setName(i, name));
       });
-
     }
   };
 }
