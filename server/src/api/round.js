@@ -18,10 +18,11 @@ server.post('/create', (req, res) => {
   res.end();
 });
 
-server.get('/:id/start', (req, res) => {
+server.post('/:id/start', (req, res) => {
   const { id } = req.params;
+  const { ticks } = req.body;
 
-  RoundService.start(id, 10, 1000);
+  RoundService.start(id, ticks, 1000);
 
   res.end();
 });

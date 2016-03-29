@@ -36,8 +36,8 @@ class RoundService {
     return id;
   }
 
-  start(id, ticks, tickLength) {
-    this._tick(id, ticks - 1, tickLength);
+  start(id, numTicks, tickLength) {
+    this._tick(id, numTicks - 1, tickLength);
   }
 
   stop(id) {
@@ -70,11 +70,11 @@ class RoundService {
     return StatsService.getScore(this.rounds[id].ticks);
   }
 
-  _tick(id, ticks, tickLength) {
+  _tick(id, numTicks, tickLength) {
     this.rounds[id].ticks.push(_.cloneDeep(this._lastTick(id)));
 
-    if (ticks >= 0) {
-      const recur = () => this._tick(id, ticks - 1, tickLength);
+    if (numTicks >= 0) {
+      const recur = () => this._tick(id, numTicks - 1, tickLength);
       const timeoutId = setTimeout(recur, tickLength);
       this.onGoingTimouts[id] = timeoutId;
     } else {
