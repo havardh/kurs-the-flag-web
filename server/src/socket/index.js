@@ -1,5 +1,5 @@
 // eslint-disable no-console
-import _ from "lodash";
+import _ from 'lodash';
 import * as websocket from 'websocket';
 import http from 'http';
 
@@ -19,10 +19,10 @@ function update(ip, color) {
   const { roundId, playerId } = RoundService.findLastActiveRoundDetails(ip) || {};
 
   if (roundId !== undefined) {
-    console.log("Round update", roundId, ip, color);
+    console.log('Round update', roundId, ip, color);
     RoundService.update(roundId, playerId, color);
   } else {
-    console.log("Simulation update", ip, color);
+    console.log('Simulation update', ip, color);
     SimulationService.update(ip, 0, color);
   }
 }
@@ -68,6 +68,10 @@ wsServer.on('request', (request) => {
   const connection = accept(request);
 
   if (!connection) {
+    return;
+  }
+
+  if (!connection.socket.remoteAddress.match(ipRegex)) {
     return;
   }
 
