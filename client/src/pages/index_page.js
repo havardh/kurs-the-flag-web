@@ -6,17 +6,17 @@ export default React.createClass({
     return (
       <div>
         <p>
-          <Link to={"/"}>Register Player</Link>
+          <Link to="/">Register Player</Link>
         </p>
 
         <p>
-          <Link to={"/rounds/0"}>Start new round</Link>
+          <Link to="/rounds/start">Start new round</Link>
         </p>
 
         <p>
-          <Link to={"/simulate"}>Simulate</Link>
+          <Link to="/simulate">Simulate</Link>
         </p>
       </div>
     );
-  }
+  },
 });

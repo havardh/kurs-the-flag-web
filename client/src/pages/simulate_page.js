@@ -29,6 +29,6 @@ export default React.createClass({
         <Players roundId={`simulate/${playerId}`} />
       </div>
     );
-  }
+  },
 
 });
