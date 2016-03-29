@@ -1,6 +1,18 @@
 import _ from 'lodash';
+import { push } from 'react-router-redux';
+
 import * as RoundService from '../services/round_service';
-import { SET_NAME, SET_COLOR } from './index';
+import { SET_NAME, SET_COLOR, START_ROUND, ERROR } from './';
+
+export function startRound(teams) {
+  return dispatch =>
+    RoundService.create(...teams)
+      .then(({ data }) => {
+        dispatch({ type: START_ROUND, data });
+        dispatch(push(`/rounds/${data.id}`));
+      })
+      .catch(({ data }) => dispatch({ type: ERROR, data }));
+}
 
 export function fetchStatus(id) {
   return dispatch =>
