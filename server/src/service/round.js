@@ -39,12 +39,14 @@ class RoundService {
 
   start(id, numTicks, tickLength) {
     this._tick(id, numTicks - 1, tickLength);
+    eventEmitter.emit('start', id);
   }
 
   stop(id) {
     if (this.onGoingTimeouts[id]) {
       clearTimeout(this.onGoingTimeouts[id]);
       delete this.onGoingTimeouts[id];
+      eventEmitter.emit('stop', id);
     }
   }
 
@@ -54,6 +56,22 @@ class RoundService {
 
   isActive(id) {
     return !!this.onGoingTimeouts[id];
+  }
+
+  findLastRoundDetails(ip) {
+    const roundId = _.findLastIndex(this.rounds,
+      (round) => !!_.find(round.players, v => v === ip));
+
+    if (roundId !== -1) {
+      const playerId = _.findIndex(this.rounds[roundId].players, v => v === ip);
+
+      if (playerId !== -1) {
+        console.log(roundId, playerId);
+        return { roundId, playerId };
+      }
+    }
+
+    return undefined;
   }
 
   findLastActiveRoundDetails(ip) {
@@ -120,12 +138,12 @@ class RoundService {
     return _.last(round.ticks);
   }
 
-  onUpdate(listener) {
-    eventEmitter.addListener('update', listener);
+  on(event, listener) {
+    eventEmitter.addListener(event, listener);
   }
 
-  offUpdate(listener) {
-    eventEmitter.removeListener('update', listener);
+  off(event, listener) {
+    eventEmitter.removeListener(event, listener);
   }
 }
 

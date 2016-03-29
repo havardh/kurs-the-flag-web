@@ -77,7 +77,11 @@ wsServer.on('request', (request) => {
   const onSimulationUpdate = clientIp => {
     if (ip === clientIp && !RoundService.findLastActiveRoundDetails(ip)) {
       const status = SimulationService.status(ip);
-      const message = { type: 'status', status: _.map(status, 'color') };
+      const message = {
+        type: 'status',
+        isActive: true,
+        status: _.map(status, 'color'),
+      };
       connection.send(JSON.stringify(message));
     }
   };
@@ -85,13 +89,33 @@ wsServer.on('request', (request) => {
   const onRoundUpdate = roundId => {
     if (RoundService.findLastActiveRoundDetails(ip).roundId === roundId) {
       const status = RoundService.status(roundId);
-      const message = { type: 'status', status: _.map(status, 'color') };
+      const message = {
+        type: 'status',
+        isActive: RoundService.isActive(roundId),
+        status: _.map(status, 'color'),
+      };
+      connection.send(JSON.stringify(message));
+    }
+  };
+
+  const onRoundStop = roundId => {
+    const roundDetails = RoundService.findLastRoundDetails(ip);
+
+    if (String(roundDetails.roundId) === roundId) {
+      const status = RoundService.status(roundId);
+      const message = {
+        type: 'status',
+        isActive: false,
+        status: _.map(status, 'color'),
+      };
       connection.send(JSON.stringify(message));
     }
   };
 
   SimulationService.onUpdate(onSimulationUpdate);
-  RoundService.onUpdate(onRoundUpdate);
+  RoundService.on('start', onRoundUpdate);
+  RoundService.on('update', onRoundUpdate);
+  RoundService.on('stop', onRoundStop);
 
   connection.on('message', message => {
     if (message.type === 'utf8') {
@@ -108,7 +132,9 @@ wsServer.on('request', (request) => {
 
   connection.on('close', () => {
     SimulationService.offUpdate(onSimulationUpdate);
-    RoundService.offUpdate(onRoundUpdate);
+    RoundService.off('start', onRoundUpdate);
+    RoundService.off('update', onRoundUpdate);
+    RoundService.off('stop', onRoundUpdate);
     console.log(`${new Date()} Peer ${connection.remoteAddress} disconnected.`);
   });
 });
