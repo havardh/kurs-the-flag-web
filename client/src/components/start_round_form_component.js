@@ -24,7 +24,7 @@ PlayerSelect.propTypes = {
 const TeamChoice = ({ name, slug, data, players, onChange }) => (
   <div>
     <h3>Team {name}</h3>
-    <label className="flex">
+    <label>
       Player 1
       <PlayerSelect
         name={`team.${slug}.player1`}
@@ -95,7 +95,7 @@ export default class StartRoundForm extends Component {
           onChange={this.onChange}
         />
 
-        <button onClick={this.onStart}>Start</button>
+        <button onClick={this.onStart}>Create</button>
       </div>
     );
   }

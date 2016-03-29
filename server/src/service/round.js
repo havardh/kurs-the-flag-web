@@ -93,6 +93,7 @@ class RoundService {
   }
 
   _tick(id, numTicks, tickLength) {
+    assert(/\d+/.test(id), 'round id must be a number');
     this.rounds[id].ticks.push(_.cloneDeep(this._lastTick(id)));
     this.rounds[id].ticksLeft = numTicks;
 

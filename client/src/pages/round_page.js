@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { fetchStatus } from '../actions/round_action_creator';
+import { fetchStatus, startRound as start } from '../actions/round_action_creator';
 import { Round } from '../components/round_component';
 
 export default connect(
@@ -8,5 +8,5 @@ export default connect(
     round,
     roundId: params.roundId,
   }),
-  { fetchStatus }
+  { fetchStatus, start }
 )(Round);

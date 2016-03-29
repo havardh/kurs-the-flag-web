@@ -2,7 +2,15 @@ import _ from 'lodash';
 import { push } from 'react-router-redux';
 
 import * as RoundService from '../services/round_service';
-import { SET_NAME, SET_COLOR, START_ROUND, ERROR, RECEIVE_STATS, RECEIVE_TICKS } from './';
+import {
+  SET_NAME,
+  SET_COLOR,
+  CREATE_ROUND,
+  START_ROUND,
+  ERROR,
+  RECEIVE_STATS,
+  RECEIVE_TICKS,
+} from './';
 
 export function setName(id, name) {
   return { type: SET_NAME, data: { id, name } };
@@ -27,12 +35,20 @@ export function boundedSetColor(roundId, id, color) {
       .catch(({ data }) => dispatch({ type: ERROR, data }));
 }
 
+export function startRound(roundId) {
+  return dispatch =>
+    RoundService.start(roundId)
+      .then(({ data }) => {
+        dispatch({ type: START_ROUND, data });
+      })
+      .catch(({ data }) => dispatch({ type: ERROR, data }));
+}
 
-export function startRound(teams) {
+export function createRound(teams) {
   return dispatch =>
     RoundService.create(...teams)
       .then(({ data }) => {
-        dispatch({ type: START_ROUND, data });
+        dispatch({ type: CREATE_ROUND, data });
         dispatch(push(`/rounds/${data.id}`));
       })
       .catch(({ data }) => dispatch({ type: ERROR, data }));
