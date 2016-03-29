@@ -14,8 +14,6 @@ import RoundPage from './pages/round_page';
 import RoundPlayerPage from './pages/round_player_page';
 import SimulatePage from './pages/simulate_page';
 
-import { init } from './sockets';
-
 const store = createStore(browserHistory, {
   players: [
     { ip: '10.0.0.1', name: '🐙' },
@@ -25,7 +23,6 @@ const store = createStore(browserHistory, {
   ],
 });
 
-init(store);
 const history = syncHistoryWithStore(browserHistory, store);
 
 ReactDOM.render(
