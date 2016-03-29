@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { COLORS } from '../constants/colors';
+import * as COLORS from '../../../common/src/constants/color';
 import { setName, setColor } from '../actions/player_action_creator';
 
 const ColorButton = ({ color, onClick }) => (

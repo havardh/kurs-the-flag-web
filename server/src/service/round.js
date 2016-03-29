@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { EventEmitter } from 'events';
 
-import * as COLOR from '../constants/color';
+import * as COLOR from '../../../common/src/constants/color';
 import * as StatsService from './stats';
 
 const eventEmitter = new EventEmitter();
@@ -60,7 +60,10 @@ class RoundService {
 
     if (roundId !== -1) {
       const playerId = _.findIndex(this.rounds[roundId], 'ip', ip);
-      return { roundId, playerId };
+
+      if (playerId !== -1) {
+        return { roundId, playerId };
+      }
     }
 
     return undefined;

@@ -1,4 +1,4 @@
-import * as COLOR from './color';
+import * as COLOR from '../../../common/src/constants/color';
 
 export const TEAM_1 = {
   BASE: COLOR.GREEN,

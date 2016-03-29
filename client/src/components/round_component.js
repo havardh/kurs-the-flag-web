@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { fetchStatus } from '../actions/round_action_creator';
 
-import { COLORS } from '../constants/colors';
+import * as COLORS from '../../../common/src/constants/color';
 
 const ScoreBoard = () => (
   <div>

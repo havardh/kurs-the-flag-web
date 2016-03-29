@@ -1,6 +1,6 @@
 import express from 'express';
 
-import * as COLOR from '../constants/color';
+import * as COLOR from '../../../common/src/constants/color';
 import RoundService from '../service/round';
 import StatsService from '../service/stats';
 import simulationApi from './simulation';

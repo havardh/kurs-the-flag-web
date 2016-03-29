@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { EventEmitter } from 'events';
 
-import * as COLOR from '../constants/color';
+import * as COLOR from '../../../common/src/constants/color';
 
 const defaultColors = [
   COLOR.BLUE,
