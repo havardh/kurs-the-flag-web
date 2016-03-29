@@ -11,7 +11,7 @@ class RoundService {
 
   constructor() {
     this.rounds = [];
-    this.onGoingTimouts = {};
+    this.onGoingTimeouts = {};
   }
 
   create(players) {
@@ -41,9 +41,9 @@ class RoundService {
   }
 
   stop(id) {
-    if (this.onGoingTimouts[id]) {
-      clearTimeout(this.onGoingTimouts[id]);
-      delete this.onGoingTimouts[id];
+    if (this.onGoingTimeouts[id]) {
+      clearTimeout(this.onGoingTimeouts[id]);
+      delete this.onGoingTimeouts[id];
     }
   }
 
@@ -79,7 +79,7 @@ class RoundService {
     if (numTicks >= 0) {
       const recur = () => this._tick(id, numTicks - 1, tickLength);
       const timeoutId = setTimeout(recur, tickLength);
-      this.onGoingTimouts[id] = timeoutId;
+      this.onGoingTimeouts[id] = timeoutId;
     } else {
       this.stop(id);
     }
