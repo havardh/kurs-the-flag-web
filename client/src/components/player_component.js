@@ -1,9 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
-import { connect } from 'react-redux';
 
 import * as COLORS from '../../../common/src/constants/color';
-import { setName, boundedSetColor as setColor } from '../actions/round_action_creator';
 
 const ColorButton = ({ color, onClick }) => (
   <button onClick={() => onClick(color.type)}>
@@ -41,7 +39,7 @@ Player.propTypes = {
   onSetColor: React.PropTypes.func,
 };
 
-const Players = ({ players, setName, setColor, roundId }) => (
+export const Players = ({ players, setName, setColor, roundId }) => (
   <div style={{ clear: 'both' }}>
     {_.map(players, (player, id) => (
       <Player
@@ -60,8 +58,3 @@ Players.propTypes = {
   onSetName: React.PropTypes.func,
   onSetColor: React.PropTypes.func,
 };
-
-export default connect(
-  ({ players }) => ({ players }),
-  { setName, setColor }
-)(Players);
