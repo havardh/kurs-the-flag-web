@@ -7,6 +7,7 @@ import { syncHistoryWithStore } from 'react-router-redux';
 
 import '../styles/main.styl';
 import createStore from './store';
+import { fetchPlayers } from './actions/player_action_creator';
 import App from './pages/app_page';
 import IndexPage from './pages/index_page';
 import StartRoundPage from './pages/start_round_page';
@@ -22,6 +23,8 @@ const store = createStore(browserHistory, {
     { ip: '10.0.0.4', name: '🐷' },
   ],
 });
+
+fetchPlayers()(store.dispatch)
 
 const history = syncHistoryWithStore(browserHistory, store);
 

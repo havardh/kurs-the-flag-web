@@ -13,7 +13,7 @@ server.post('/register', (req, res) => {
 });
 
 server.get('/list', (req, res) => {
-  const players = PlayerService.all();
+  const players = PlayerService.list();
 
   res.json(players);
   res.end();
