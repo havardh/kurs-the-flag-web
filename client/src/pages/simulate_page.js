@@ -1,11 +1,11 @@
-import _ from 'lodash';
 import React from 'react';
+import { connect } from 'react-redux';
 
-import Round from '../components/round_component';
+import { fetchStatus } from '../actions/round_action_creator';
+import { Round } from '../components/round_component';
 import Players from '../components/player_component';
 
-export default React.createClass({
-
+export const SimulatePage = React.createClass({
   getInitialState() {
     return {};
   },
@@ -25,10 +25,17 @@ export default React.createClass({
           </label>
         </p>
 
-        <Round roundId={`simulate/${playerId}`} />
+        <Round {...this.props} roundId={`simulate/${playerId}`} />
         <Players roundId={`simulate/${playerId}`} />
       </div>
     );
   },
-
 });
+
+export default connect(
+  ({ round }, { params }) => ({
+    round,
+    roundId: params.roundId,
+  }),
+  { fetchStatus }
+)(SimulatePage);

@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import * as COLORS from '../../../common/src/constants/color';
-import { setName, setColor } from '../actions/player_action_creator';
+import { setName, boundedSetColor as setColor } from '../actions/round_action_creator';
 
 const ColorButton = ({ color, onClick }) => (
   <button onClick={() => onClick(color.type)}>
