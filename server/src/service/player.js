@@ -1,17 +1,19 @@
-class PlayerService {
+import _ from 'lodash';
+
+export class PlayerService {
 
   constructor() {
-    this.players = [];
+    this.players = {};
   }
 
   register(ip, name) {
     const player = { ip, name };
-    this.players.push(player);
+    this.players[ip] = player;
     return ip;
   }
 
   list() {
-    return this.players;
+    return _.map(this.players, player => player);
   }
 
 }
