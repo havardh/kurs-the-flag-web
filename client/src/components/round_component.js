@@ -62,20 +62,27 @@ export class Round extends React.Component {
   constructor(props) {
     super(props);
     this.onStart = this.onStart.bind(this);
+    this.state = { started: false };
   }
 
   componentDidMount() {
     if (this.props.roundId !== 'simulate/undefined') {
-      this.props.fetchStatus(this.props.roundId);
-      this.addSetTimeout(true);
+      if (this.state.started) {
+        this.props.fetchStatus(this.props.roundId);
+        this.addSetTimeout(true);
+      }
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.roundId !== this.props.roundId) {
-      this.props.fetchStatus(nextProps.roundId);
-      if (!this.timeout) {
-        this.addSetTimeout(true);
+      if (nextProps.roundId !== 'simulate/undefined') {
+        if (this.state.started) {
+          this.props.fetchStatus(nextProps.roundId);
+          if (!this.timeout) {
+            this.addSetTimeout(true);
+          }
+        }
       }
     }
   }
@@ -90,6 +97,7 @@ export class Round extends React.Component {
   }
 
   onStart() {
+    this.setState({ started: true });
     this.props.start(this.props.roundId);
     this.addSetTimeout(true);
   }

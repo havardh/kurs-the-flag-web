@@ -1,7 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { fetchStatus, setName, boundedSetColor as setColor } from '../actions/round_action_creator';
+import {
+  fetchStatus,
+  setName,
+  boundedSetColor as setColor,
+  startRound as start,
+} from '../actions/round_action_creator';
 import { Round } from '../components/round_component';
 import { Players } from '../components/player_component';
 
@@ -38,5 +43,5 @@ export default connect(
     players: round.players,
     roundId: params.roundId,
   }),
-  { fetchStatus, setName, setColor }
+  { fetchStatus, setName, setColor, start }
 )(SimulatePage);
