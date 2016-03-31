@@ -16,6 +16,10 @@ function register(ip, name) {
   PlayerService.register(ip, name);
 }
 
+function unregister(ip) {
+  PlayerService.unregister(ip);
+}
+
 function update(ip, color) {
   const { roundId, playerId } = RoundService.findLastActiveRoundDetails(ip) || {};
 
@@ -111,7 +115,7 @@ wsServer.on('request', (request) => {
   const onRoundUpdate = roundId => {
     const roundDetails = RoundService.findLastActiveRoundDetails(ip);
     if (roundDetails.roundId === roundId) {
-      const status = RoundService.status(roundId)
+      const status = RoundService.status(roundId);
 
       const colors = orderForPlayer(_.map(status, 'color'), roundDetails.playerId);
 
@@ -136,7 +140,7 @@ wsServer.on('request', (request) => {
         type: 'status',
         isActive: false,
         target: roundDetails.playerId <= 1 ? POSITIONS.TEAM_2.BASE : POSITIONS.TEAM_1.BASE,
-        status: _.map(status, 'color'),
+        status: colors,
       };
       connection.send(JSON.stringify(message));
     }
@@ -161,10 +165,11 @@ wsServer.on('request', (request) => {
   });
 
   connection.on('close', () => {
+    PlayerService.unregister(ip);
     SimulationService.offUpdate(onSimulationUpdate);
     RoundService.off('start', onRoundUpdate);
     RoundService.off('update', onRoundUpdate);
     RoundService.off('stop', onRoundUpdate);
-    console.log(`${new Date()} Peer ${connection.remoteAddress} disconnected.`);
+    console.log(`${new Date()} Peer ${ip} disconnected.`);
   });
 });

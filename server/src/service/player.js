@@ -7,9 +7,15 @@ export class PlayerService {
   }
 
   register(ip, name) {
-    const player = { ip, name };
+    const player = { ip, name, online: true };
     this.players[ip] = player;
     return ip;
+  }
+
+  unregister(ip) {
+    if (this.players[ip]) {
+      this.players[ip].online = false;
+    }
   }
 
   list() {
