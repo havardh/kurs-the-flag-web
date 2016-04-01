@@ -93,6 +93,7 @@ export class Round extends React.Component {
 
   onStart() {
     this.props.start(this.props.roundId);
+    this.props.fetchStatus(this.props.roundId);
     this.addSetTimeout(true);
   }
 
