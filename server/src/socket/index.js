@@ -112,6 +112,19 @@ wsServer.on('request', (request) => {
     }
   };
 
+  const onSimulationStop = clientIp => {
+    if (ip === clientIp && !RoundService.findLastActiveRoundDetails(ip)) {
+      const status = SimulationService.status(ip);
+      const message = {
+        type: 'status',
+        isActive: false,
+        target: POSITIONS.TEAM_2.BASE,
+        status: _.map(status, 'color'),
+      };
+      connection.send(JSON.stringify(message));
+    }
+  };
+
   const onRoundUpdate = roundId => {
     const roundDetails = RoundService.findLastActiveRoundDetails(ip);
     if (roundDetails.roundId === roundId) {
@@ -146,7 +159,9 @@ wsServer.on('request', (request) => {
     }
   };
 
-  SimulationService.onUpdate(onSimulationUpdate);
+  SimulationService.on('start', onSimulationUpdate);
+  SimulationService.on('update', onSimulationUpdate);
+  SimulationService.on('stop', onSimulationStop);
   RoundService.on('start', onRoundUpdate);
   RoundService.on('update', onRoundUpdate);
   RoundService.on('stop', onRoundStop);
@@ -166,7 +181,9 @@ wsServer.on('request', (request) => {
 
   connection.on('close', () => {
     PlayerService.unregister(ip);
-    SimulationService.offUpdate(onSimulationUpdate);
+    SimulationService.off('start', onSimulationUpdate);
+    SimulationService.off('update', onSimulationUpdate);
+    SimulationService.off('stop', onSimulationStop);
     RoundService.off('start', onRoundUpdate);
     RoundService.off('update', onRoundUpdate);
     RoundService.off('stop', onRoundUpdate);
