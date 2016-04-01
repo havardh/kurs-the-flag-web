@@ -100,7 +100,7 @@ wsServer.on('request', (request) => {
   console.log(`Connected to: ${ip}`);
 
   const onSimulationUpdate = clientIp => {
-    if (ip === clientIp && !RoundService.findLastActiveRoundDetails(ip)) {
+    if (String(ip) === String(clientIp) && !RoundService.findLastActiveRoundDetails(ip)) {
       const status = SimulationService.status(ip);
       const message = {
         type: 'status',
@@ -113,7 +113,7 @@ wsServer.on('request', (request) => {
   };
 
   const onSimulationStop = clientIp => {
-    if (ip === clientIp && !RoundService.findLastActiveRoundDetails(ip)) {
+    if (String(ip) === String(clientIp) && !RoundService.findLastActiveRoundDetails(ip)) {
       const status = SimulationService.status(ip);
       const message = {
         type: 'status',
@@ -127,7 +127,7 @@ wsServer.on('request', (request) => {
 
   const onRoundUpdate = roundId => {
     const roundDetails = RoundService.findLastActiveRoundDetails(ip);
-    if (roundDetails.roundId === roundId) {
+    if (String(roundDetails.roundId) === String(roundId)) {
       const status = RoundService.status(roundId);
 
       const colors = orderForPlayer(_.map(status, 'color'), roundDetails.playerId);
@@ -145,7 +145,7 @@ wsServer.on('request', (request) => {
   const onRoundStop = roundId => {
     const roundDetails = RoundService.findLastRoundDetails(ip);
 
-    if (String(roundDetails.roundId) === roundId) {
+    if (String(roundDetails.roundId) === String(roundId)) {
       const status = RoundService.status(roundId);
 
       const colors = orderForPlayer(_.map(status, 'color'), roundDetails.playerId);
