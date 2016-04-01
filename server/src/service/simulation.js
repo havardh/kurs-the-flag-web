@@ -12,7 +12,7 @@ const defaultColors = [
 
 const defaultSimulation = {
   colors: defaultColors,
-  state: { started: false },
+  ticksLeft: 20,
 };
 
 const eventEmitter = new EventEmitter();
@@ -21,22 +21,44 @@ class SimulationService {
 
   constructor() {
     this.simulations = {};
+    this.onGoingTimeouts = {};
   }
 
   start(ip, ticks) {
     const simulation = this._get(ip);
-    simulation.state.started = true;
     this.simulations[ip] = simulation;
+    this._tick(ip, ticks);
+    eventEmitter.emit('start', ip);
+  }
 
-    setTimeout(function () {
-      this.simulations[ip].started = false;
-    }, 1000 * ticks);
+  ticksLeft(ip) {
+    return _.get(this.simulations[ip], 'ticksLeft');
+  }
+
+  stop(ip) {
+    if (this.onGoingTimeouts[ip]) {
+      clearTimeout(this.onGoingTimeouts[ip]);
+      delete this.onGoingTimeouts[ip];
+      eventEmitter.emit('stop', ip);
+    }
+  }
+
+  _tick(ip, numTicks) {
+    this.simulations[ip].ticksLeft = numTicks;
+
+    if (numTicks >= 0) {
+      const recur = () => this._tick(ip, numTicks - 1, 1000);
+      const timeoutId = setTimeout(recur, 1000);
+      this.onGoingTimeouts[ip] = timeoutId;
+    } else {
+      this.stop(ip);
+    }
   }
 
   update(ip, playerId, color) {
     const now = this._get(ip);
 
-    if (now && now.state.started) {
+    if (now && this.onGoingTimeouts[ip]) {
       now.colors[playerId] = color;
       this.simulations[ip] = now;
 
@@ -56,12 +78,12 @@ class SimulationService {
     return _.map(colors, (color, name) => ({ name, color }));
   }
 
-  onUpdate(listener) {
-    eventEmitter.addListener('update', listener);
+  on(event, listener) {
+    eventEmitter.addListener(event, listener);
   }
 
-  offUpdate(listener) {
-    eventEmitter.removeListener('update', listener);
+  off(event, listener) {
+    eventEmitter.removeListener(event, listener);
   }
 
 }
