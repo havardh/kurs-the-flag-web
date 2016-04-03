@@ -127,7 +127,7 @@ wsServer.on('request', (request) => {
 
   const onRoundUpdate = roundId => {
     const roundDetails = RoundService.findLastActiveRoundDetails(ip);
-    if (String(roundDetails.roundId) === String(roundId)) {
+    if (roundDetails && String(roundDetails.roundId) === String(roundId)) {
       const status = RoundService.status(roundId);
 
       const colors = orderForPlayer(_.map(status, 'color'), roundDetails.playerId);
@@ -145,7 +145,7 @@ wsServer.on('request', (request) => {
   const onRoundStop = roundId => {
     const roundDetails = RoundService.findLastRoundDetails(ip);
 
-    if (String(roundDetails.roundId) === String(roundId)) {
+    if (roundDetails && String(roundDetails.roundId) === String(roundId)) {
       const status = RoundService.status(roundId);
 
       const colors = orderForPlayer(_.map(status, 'color'), roundDetails.playerId);
