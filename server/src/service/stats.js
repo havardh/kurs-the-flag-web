@@ -11,13 +11,15 @@ export function getScore(ticks) {
 export function calculateScore(roundDetails) {
   if (team1IsOnBase2(roundDetails)
       && !team1IsOnBase1(roundDetails)
-      && !team2IsOnBase2(roundDetails)) {
+      && !team2IsOnBase2(roundDetails)
+      && !team2IsOnBase1(roundDetails)) {
     return { team1: 1, team2: 0 };
   }
 
   if (team2IsOnBase1(roundDetails)
       && !team1IsOnBase1(roundDetails)
-      && !team2IsOnBase2(roundDetails)) {
+      && !team2IsOnBase2(roundDetails)
+      && !team1IsOnBase2(roundDetails)) {
     return { team1: 0, team2: 1 };
   }
 

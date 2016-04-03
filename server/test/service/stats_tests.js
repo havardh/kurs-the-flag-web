@@ -153,6 +153,28 @@ describe('StatsService', () => {
         );
       });
     });
+    describe('when both teams are attaching', () => {
+      it('should not give any points', () => {
+        expectScore(
+          [BASE_2, LEFT_1, BASE_1, LEFT_1],
+          { team1: 0, team2: 0 }
+        );
 
+        expectScore(
+          [BASE_2, LEFT_1, LEFT_2, BASE_1],
+          { team1: 0, team2: 0 }
+        );
+
+        expectScore(
+          [LEFT_2, BASE_2, BASE_1, LEFT_2],
+          { team1: 0, team2: 0 }
+        );
+
+        expectScore(
+          [LEFT_2, BASE_2, LEFT_2, BASE_2],
+          { team1: 0, team2: 0 }
+        );
+      });
+    });
   });
 });
