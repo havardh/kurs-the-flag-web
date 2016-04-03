@@ -2,13 +2,13 @@ import _ from 'lodash';
 import { EventEmitter } from 'events';
 import * as StatsService from './stats';
 
-import * as COLOR from '../../../common/src/constants/color';
+import * as POSITIONS from '../constants/positions';
 
 const defaultColors = [
-  COLOR.BLUE,
-  COLOR.BLUE,
-  COLOR.BLUE,
-  COLOR.BLUE,
+  POSITIONS.TEAM_1.LEFT,
+  POSITIONS.TEAM_1.RIGHT,
+  POSITIONS.TEAM_2.LEFT,
+  POSITIONS.TEAM_2.RIGHT,
 ];
 
 const defaultSimulation = {
