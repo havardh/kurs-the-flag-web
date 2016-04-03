@@ -11,7 +11,7 @@ const defaultColors = [
 ];
 
 const defaultSimulation = {
-  colors: defaultColors,
+  ticks: [defaultColors],
   ticksLeft: 20,
 };
 
@@ -45,6 +45,7 @@ class SimulationService {
 
   _tick(ip, numTicks) {
     this.simulations[ip].ticksLeft = numTicks;
+    this.simulations[ip].ticks.push(_.cloneDeep(this._getLastRound(ip)));
 
     if (numTicks >= 0) {
       const recur = () => this._tick(ip, numTicks - 1, 1000);
@@ -59,7 +60,7 @@ class SimulationService {
     const now = this._get(ip);
 
     if (now && this.onGoingTimeouts[ip]) {
-      now.colors[playerId] = color;
+      _.last(now.ticks)[playerId] = color;
       this.simulations[ip] = now;
 
       eventEmitter.emit('update', ip);
@@ -67,11 +68,16 @@ class SimulationService {
   }
 
   status(ip) {
-    return this._transform(this._get(ip).colors);
+    return this._transform(this._getLastRound(ip));
   }
 
   _get(ip) {
     return _.assign([], this.simulations[ip] || defaultSimulation);
+  }
+
+  _getLastRound(ip) {
+    const simulation = this._get(ip);
+    return simulation && _.last(simulation.ticks);
   }
 
   _transform(colors) {
