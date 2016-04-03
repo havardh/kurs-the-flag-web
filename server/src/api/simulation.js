@@ -18,7 +18,7 @@ server.get('/:ip/status', (req, res) => {
 
   const status = SimulationService.status(ip);
 
-  const score = { team1: 2, team2: 2 };
+  const score = SimulationService.stats(ip);
   const ticks = SimulationService.ticksLeft(ip);
 
   res.json({ status, score, ticks });

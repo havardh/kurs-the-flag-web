@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { EventEmitter } from 'events';
+import * as StatsService from './stats';
 
 import * as COLOR from '../../../common/src/constants/color';
 
@@ -27,6 +28,7 @@ class SimulationService {
   start(ip, ticks) {
     const simulation = this._get(ip);
     this.simulations[ip] = simulation;
+    this.simulations[ip].ticks = [defaultColors];
     this._tick(ip, ticks);
     eventEmitter.emit('start', ip);
   }
@@ -69,6 +71,13 @@ class SimulationService {
 
   status(ip) {
     return this._transform(this._getLastRound(ip));
+  }
+
+  stats(ip) {
+    if (this.simulations[ip]) {
+      return StatsService.getScore(this.simulations[ip].ticks);
+    }
+    return {};
   }
 
   _get(ip) {
