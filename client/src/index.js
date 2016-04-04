@@ -16,12 +16,7 @@ import RoundPlayerPage from './pages/round_player_page';
 import SimulatePage from './pages/simulate_page';
 
 const store = createStore(browserHistory, {
-  players: [
-    { ip: '10.0.0.1', name: '🐙' },
-    { ip: '10.0.0.2', name: '🐠' },
-    { ip: '10.0.0.3', name: '🐣' },
-    { ip: '10.0.0.4', name: '🐷' },
-  ],
+  players: [],
 });
 
 fetchPlayers()(store.dispatch)

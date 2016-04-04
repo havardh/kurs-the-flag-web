@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { Player } from '../components/player_component';
-import { setName, setColor } from '../actions/player_action_creator';
+import { setName, setColor } from '../actions/round_action_creator';
 
 const RoundPlayerPage = React.createClass({
 

@@ -14,10 +14,42 @@ ColorButton.propTypes = {
   onClick: React.PropTypes.func,
 };
 
+
+function stop(callback) {
+  return function (event) {
+    event.stopPropagation();
+    callback();
+  };
+}
+
+function robotColor(color) {
+  return typeof(color) === 'string' ? 'on-' + color.toLowerCase() : '';
+}
+
+export const Board = ({ color, onClick }) => (
+  <div onClick={stop(() => onClick('BLACK'))} className="border black">
+
+    <div onClick={stop(() => onClick('GREY'))} className="cell gray" />
+    <div onClick={stop(() => onClick('YELLOW'))} className="cell yellow" />
+    <div onClick={stop(() => onClick('WHITE'))} className="cell white" />
+    <div onClick={stop(() => onClick('BLUE'))} className="cell blue" />
+
+    <div onClick={stop(() => onClick('GREEN'))} className="target1 green" />
+    <div onClick={stop(() => onClick('RED'))} className="target2 red" />
+
+    <div className={`robot ${robotColor(color)}`} />
+  </div>
+);
+
+Board.propTypes = {
+  onClick: React.PropTypes.func,
+  color: React.PropTypes.string,
+};
+
 export const Player = ({ player, onChange, onClick }) => (
   <div style={{ float: 'left', margin: '20px' }}>
     <input
-      value={player.name}
+      value={(player || {}).name}
       onChange={onChange}
     />
     <br />
@@ -30,6 +62,8 @@ export const Player = ({ player, onChange, onClick }) => (
         />)
       )}
     </div>
+    <Board color={(player || {}).color} onClick={onClick} />
+
   </div>
 );
 
@@ -46,7 +80,7 @@ export const Players = ({ players, setName, setColor, roundId }) => (
         key={id}
         player={player}
         onChange={({ target }) => setName(id, target.value)}
-        onClick={color => setColor(roundId, id, color)}
+        onClick={color => { console.log(color); return setColor(roundId, id, color) }}
       />
     )
     )}
