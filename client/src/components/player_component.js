@@ -76,12 +76,16 @@ Player.propTypes = {
 export const Players = ({ players, setName, setColor, roundId }) => (
   <div style={{ clear: 'both' }}>
     {_.map(players, (player, id) => (
-      <Player
-        key={id}
-        player={player}
-        onChange={({ target }) => setName(id, target.value)}
-        onClick={color => { console.log(color); return setColor(roundId, id, color) }}
-      />
+        <div>
+        {id == 0 && <h3>Team A</h3>}
+        {id == 2 && <h3>Team B</h3>}
+        <Player
+          key={id}
+          player={player}
+          onChange={({ target }) => setName(id, target.value)}
+          onClick={color => { console.log(color); return setColor(roundId, id, color) }}
+        />
+      </div>
     )
     )}
   </div>
