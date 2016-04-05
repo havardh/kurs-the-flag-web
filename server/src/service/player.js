@@ -18,6 +18,10 @@ export class PlayerService {
     }
   }
 
+  get(ip) {
+    return this.players[ip] || { ip, name: "Unregistered", online: false};
+  }
+
   list() {
     return _.map(this.players, player => player);
   }

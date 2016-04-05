@@ -4,6 +4,7 @@ import { EventEmitter } from 'events';
 import * as COLOR from '../../../common/src/constants/color';
 import * as StatsService from './stats';
 import SimulationService from './simulation';
+import PlayerService from './player';
 
 const eventEmitter = new EventEmitter();
 const { assert } = console;
@@ -25,12 +26,16 @@ class RoundService {
     const id = this.rounds.length;
 
     this.rounds.push({
-      players,
+      players: this.getPlayers(players),
       ticksLeft: 100,
       ticks: [this.startingColors(players)],
     });
 
     return id;
+  }
+
+  getPlayers(players) {
+    return _.map(players, ip => PlayerService.get(ip));
   }
 
   startingColors(players) {
