@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { EventEmitter } from 'events';
 import * as StatsService from './stats';
+import PlayerService from './player';
 
 import {DEFAULT_COLORS} from '../constants/positions';
 
@@ -63,7 +64,7 @@ class SimulationService {
   }
 
   status(ip) {
-    return this._transform(this._getLastRound(ip));
+    return this._transform(ip, this._getLastRound(ip));
   }
 
   stats(ip) {
@@ -87,8 +88,10 @@ class SimulationService {
     return simulation && _.last(simulation.ticks);
   }
 
-  _transform(colors) {
-    return _.map(colors, (color, name) => ({ name, color }));
+  _transform(ip, colors) {
+    const player = PlayerService.get(ip) || {name: ip};
+    const names = [player.name, "Player 2", "Player 3", "Player 4"];
+    return _.map(colors, (color, i) => ({ name: names[i], color }));
   }
 
   on(event, listener) {
