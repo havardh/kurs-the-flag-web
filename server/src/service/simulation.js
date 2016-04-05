@@ -68,6 +68,11 @@ class SimulationService {
 
   stats(ip) {
     if (this.simulations[ip]) {
+      if (this.simulations[ip].ticksLeft > 0) {
+        return StatsService.getScore(
+          _.take(this.simulations[ip].ticks, _.size(this.simulations[ip].ticks) - 1)
+        );
+      }
       return StatsService.getScore(this.simulations[ip].ticks);
     }
     return {};

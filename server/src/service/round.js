@@ -94,6 +94,11 @@ class RoundService {
   }
 
   stats(id) {
+    if (this.rounds[id].ticksLeft > 0) {
+      return StatsService.getScore(
+        _.take(this.rounds[id].ticks, _.size(this.rounds[id].ticks) - 1)
+      );
+    }
     return StatsService.getScore(this.rounds[id].ticks);
   }
 
