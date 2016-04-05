@@ -2,17 +2,10 @@ import _ from 'lodash';
 import { EventEmitter } from 'events';
 import * as StatsService from './stats';
 
-import * as POSITIONS from '../constants/positions';
-
-const defaultColors = [
-  POSITIONS.TEAM_1.LEFT,
-  POSITIONS.TEAM_1.RIGHT,
-  POSITIONS.TEAM_2.LEFT,
-  POSITIONS.TEAM_2.RIGHT,
-];
+import {DEFAULT_COLORS} from '../constants/positions';
 
 const defaultSimulation = {
-  ticks: [defaultColors],
+  ticks: [DEFAULT_COLORS],
   ticksLeft: 20,
 };
 
@@ -28,7 +21,7 @@ class SimulationService {
   start(ip, ticks) {
     const simulation = this._get(ip);
     this.simulations[ip] = simulation;
-    this.simulations[ip].ticks = [defaultColors];
+    this.simulations[ip].ticks = [DEFAULT_COLORS];
     this._tick(ip, ticks);
     eventEmitter.emit('start', ip);
   }
