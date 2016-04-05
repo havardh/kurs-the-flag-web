@@ -3,6 +3,7 @@ import { EventEmitter } from 'events';
 
 import * as COLOR from '../../../common/src/constants/color';
 import * as StatsService from './stats';
+import SimulationService from './simulation';
 
 const eventEmitter = new EventEmitter();
 const { assert } = console;
@@ -26,20 +27,24 @@ class RoundService {
     this.rounds.push({
       players,
       ticksLeft: 100,
-      ticks: [[
-        COLOR.BLUE,
-        COLOR.BLUE,
-        COLOR.BLUE,
-        COLOR.BLUE,
-      ]],
+      ticks: [this.startingColors(players)],
     });
 
     return id;
   }
 
+  startingColors(players) {
+    return _.map([0, 1,  2, 3], i => {
+      const ip = players[i];
+      const color = _.get(SimulationService.status(ip), "[0].color");
+      return color;
+    });
+  }
+
   start(id, numTicks, tickLength) {
     this._tick(id, numTicks - 1, tickLength);
     eventEmitter.emit('start', id);
+    console.log('start emitted');
   }
 
   stop(id) {
@@ -112,14 +117,12 @@ class RoundService {
   }
 
   status(id) {
-    return _.zipWith(
-      this._players(id),
-      this._lastTick(id),
-      (player, color) => ({
-        name: player.name,
-        color,
-      }
-    ));
+    return _.map([0,1,2,3], i => {
+      return {
+        name: this._players(id)[i].name,
+        color: this._lastTick(id)[i]
+      };
+    });
   }
 
   update(id, playerId, color) {
