@@ -127,36 +127,37 @@ wsServer.on('request', (request) => {
     }
   };
 
-  const onRoundUpdate = roundId => {
-    const roundDetails = RoundService.findLastActiveRoundDetails(ip);
-    if (roundDetails && String(roundDetails.roundId) === String(roundId)) {
+  const onRoundUpdate = (roundId, players) => {
+    const playerId = _.findIndex(players, { ip });
+
+    if (playerId !== -1) {
       const status = RoundService.status(roundId);
 
-      const colors = orderForPlayer(_.map(status, 'color'), roundDetails.playerId);
+      const colors = orderForPlayer(_.map(status, 'color'), playerId);
 
       const message = {
         type: 'status',
         isActive: RoundService.isActive(roundId),
-        target: roundDetails.playerId <= 1 ? POSITIONS.TEAM_2.BASE : POSITIONS.TEAM_1.BASE,
         simulate: false,
+        target: playerId <= 1 ? POSITIONS.TEAM_2.BASE : POSITIONS.TEAM_1.BASE,
         status: colors,
       };
       connection.send(JSON.stringify(message));
     }
   };
 
-  const onRoundStop = roundId => {
-    const roundDetails = RoundService.findLastRoundDetails(ip);
+  const onRoundStop = (roundId, players) => {
+    const playerId = _.findIndex(players, { ip });
 
-    if (roundDetails && String(roundDetails.roundId) === String(roundId)) {
+    if (playerId !== -1) {
       const status = RoundService.status(roundId);
 
-      const colors = orderForPlayer(_.map(status, 'color'), roundDetails.playerId);
+      const colors = orderForPlayer(_.map(status, 'color'), playerId);
       const message = {
         type: 'status',
         isActive: false,
-        target: roundDetails.playerId <= 1 ? POSITIONS.TEAM_2.BASE : POSITIONS.TEAM_1.BASE,
         simulate: false,
+        target: playerId <= 1 ? POSITIONS.TEAM_2.BASE : POSITIONS.TEAM_1.BASE,
         status: colors,
       };
       connection.send(JSON.stringify(message));

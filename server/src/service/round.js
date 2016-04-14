@@ -49,7 +49,7 @@ class RoundService {
 
   start(id, numTicks, tickLength) {
     this._tick(id, numTicks - 1, tickLength);
-    eventEmitter.emit('start', id);
+    eventEmitter.emit('start', id, this.rounds[id].players);
     console.log('start emitted');
   }
 
@@ -57,7 +57,7 @@ class RoundService {
     if (this.onGoingTimeouts[id]) {
       clearTimeout(this.onGoingTimeouts[id]);
       delete this.onGoingTimeouts[id];
-      eventEmitter.emit('stop', id);
+      eventEmitter.emit('stop', id, this.rounds[id].players);
     }
   }
 
@@ -125,7 +125,7 @@ class RoundService {
     const tick = this._lastTick(id);
     tick[playerId] = color;
 
-    eventEmitter.emit('update', id);
+    eventEmitter.emit('update', id, this.rounds[id].players);
   }
 
   _players(id) {
