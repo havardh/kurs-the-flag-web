@@ -105,6 +105,7 @@ wsServer.on('request', (request) => {
       const message = {
         type: 'status',
         isActive: true,
+        simulate: true,
         target: POSITIONS.TEAM_2.BASE,
         status: _.map(status, 'color'),
       };
@@ -118,6 +119,7 @@ wsServer.on('request', (request) => {
       const message = {
         type: 'status',
         isActive: false,
+        simulate: true,
         target: POSITIONS.TEAM_2.BASE,
         status: _.map(status, 'color'),
       };
@@ -136,6 +138,7 @@ wsServer.on('request', (request) => {
         type: 'status',
         isActive: RoundService.isActive(roundId),
         target: roundDetails.playerId <= 1 ? POSITIONS.TEAM_2.BASE : POSITIONS.TEAM_1.BASE,
+        simulate: false,
         status: colors,
       };
       connection.send(JSON.stringify(message));
@@ -153,6 +156,7 @@ wsServer.on('request', (request) => {
         type: 'status',
         isActive: false,
         target: roundDetails.playerId <= 1 ? POSITIONS.TEAM_2.BASE : POSITIONS.TEAM_1.BASE,
+        simulate: false,
         status: colors,
       };
       connection.send(JSON.stringify(message));
