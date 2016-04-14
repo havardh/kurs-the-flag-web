@@ -36,12 +36,11 @@ describe('StatsService', () => {
     });
 
     it("should sum scores returned by calculateScore", () => {
-
       calculateScore
-        .onCall(0).returns({ team1: 0, team2: 1})
-        .onCall(1).returns({ team1: 1, team2: 0})
-        .onCall(2).returns({ team1: 0, team2: 0})
-        .onCall(3).returns({ team1: 0, team2: 1});
+        .onCall(0).returns({ team1: 0, team2: 1 })
+        .onCall(1).returns({ team1: 1, team2: 0 })
+        .onCall(2).returns({ team1: 0, team2: 0 })
+        .onCall(3).returns({ team1: 0, team2: 1 });
 
       const score = StatsService.getScore([[], [], [], []]);
 
