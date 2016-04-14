@@ -69,21 +69,6 @@ class RoundService {
     return !!this.onGoingTimeouts[id];
   }
 
-  findLastRoundDetails(ip) {
-    const roundId = _.findLastIndex(this.rounds,
-      (round) => !!_.find(round.players, v => v === ip));
-
-    if (roundId !== -1) {
-      const playerId = _.findIndex(this.rounds[roundId].players, v => v === ip);
-
-      if (playerId !== -1) {
-        return { roundId, playerId };
-      }
-    }
-
-    return undefined;
-  }
-
   findLastActiveRoundDetails(ip) {
     const roundId = _.findLastIndex(this.rounds,
       (round, id) => !!_.find(round.players, v => v === ip) && this.isActive(id));
