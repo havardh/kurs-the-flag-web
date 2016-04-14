@@ -7,6 +7,7 @@ import SimulationService from './simulation';
 import PlayerService from './player';
 
 const eventEmitter = new EventEmitter();
+eventEmitter.setMaxListeners(100);
 const { assert } = console;
 
 class RoundService {

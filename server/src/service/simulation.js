@@ -11,6 +11,7 @@ const defaultSimulation = {
 };
 
 const eventEmitter = new EventEmitter();
+eventEmitter.setMaxListeners(100);
 
 class SimulationService {
 
