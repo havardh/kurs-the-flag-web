@@ -10,7 +10,7 @@ const eventEmitter = new EventEmitter();
 eventEmitter.setMaxListeners(100);
 const { assert } = console;
 
-class RoundService {
+export class RoundService {
 
   constructor() {
     this.rounds = [];
@@ -70,17 +70,14 @@ class RoundService {
   }
 
   findLastActiveRoundDetails(ip) {
-    const roundId = _.findLastIndex(this.rounds,
-      (round, id) => !!_.find(round.players, v => v === ip) && this.isActive(id));
-
-    if (roundId !== -1) {
-      const playerId = _.findIndex(this.rounds[roundId].players, v => v === ip);
-
-      if (playerId !== -1) {
-        return { roundId, playerId };
+    for (var roundId = _.size(this.rounds) - 1; roundId >= 0; roundId--) {
+      if (this.isActive(roundId)) {
+        const playerId = _.findIndex(this.rounds[0].players, { ip });
+        if (playerId !== -1) {
+          return { roundId, playerId };
+        }
       }
     }
-
     return undefined;
   }
 
