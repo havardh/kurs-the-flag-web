@@ -24,9 +24,9 @@ export class RoundService {
     assert(_.isString(players[2]), 'a player should be truthy');
     assert(_.isString(players[3]), 'a player should be truthy');
 
-    const id = this.rounds.length;
+    const id = 0;
 
-    this.rounds.push({
+    this.rounds[id] = ({
       players: this.getPlayers(players),
       ticksLeft: 100,
       ticks: [this.startingColors(players)],
